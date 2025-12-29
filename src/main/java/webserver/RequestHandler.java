@@ -1,10 +1,10 @@
 package webserver;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +24,25 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
+            InputStreamReader reader = new InputStreamReader(in);
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String firstLine = bufferedReader.readLine();
+            logger.info(firstLine);
+            while (bufferedReader.ready()) {
+                logger.info(bufferedReader.readLine());
+            }
+
+            String[] requests = firstLine.split(" ");
+            String rPath = requests[1];
             DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = "<h1>Hello World</h1>".getBytes();
+            Path path = Path.of("src", "main", "resources", "static", rPath).toAbsolutePath().normalize();
+            byte[] body = Files.readAllBytes(path);
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException e) {
             logger.error(e.getMessage());
+            logger.error(Arrays.toString(e.getStackTrace()));
+            logger.error(String.valueOf(e.getClass()));
         }
     }
 

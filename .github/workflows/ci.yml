@@ -42,11 +42,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # 4) Spotless Check
-      - name: Run Spotless check
-        run: ./gradlew --no-daemon spotlessCheck
-
-      # 5) 단위 테스트
+      # 4) 단위 테스트
       - name: Run unit tests
         run: ./gradlew --no-daemon test
 

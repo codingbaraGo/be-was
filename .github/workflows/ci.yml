@@ -31,11 +31,11 @@ jobs:
           git pull --ff-only origin "${{ github.head_ref }}"
 
       # 2) JDK 설치 + Gradle 캐싱
-      - name: Set up JDK 21
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: 21
+          java-version: 17
           cache: 'gradle'
 
       # 3) Gradle Wrapper 권한 부여

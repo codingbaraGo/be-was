@@ -22,6 +22,7 @@ public class HttpBufferedReaderRequestConverter implements HttpRequestConverter 
                 String line = bufferedReader.readLine().strip();
                 if(line.length() <= 1) break;
                 int idx = line.indexOf(':');
+                //TODO: idx == -1 일 경우 Throw Exception
 
                 request.setHeader(line.substring(0, idx), line.substring(idx));
                 logger.debug("New Header Added:{} - {}", line.substring(0, idx), line.substring(idx));
@@ -34,7 +35,7 @@ public class HttpBufferedReaderRequestConverter implements HttpRequestConverter 
             logger.error(Arrays.toString(e.getStackTrace()));
             logger.error(String.valueOf(e.getClass()));
         }
-        //TODO: Change return (to throw webserver.exception)
+        //TODO: throw webserver exception
         return null;
     }
 }

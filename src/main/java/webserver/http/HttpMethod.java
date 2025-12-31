@@ -3,7 +3,7 @@ package webserver.http;
 public enum HttpMethod {
     GET,
     POST,
-    UPDATE,
+    PUT,
     PATCH,
     DELETE
 }

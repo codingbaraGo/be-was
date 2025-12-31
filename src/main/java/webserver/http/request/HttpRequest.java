@@ -67,7 +67,7 @@ public class HttpRequest {
     public static HttpRequest from(String requestLine){
         String[] parts = requestLine.split(" ");
         return new HttpRequest(
-                HttpMethod.valueOf(parts[0].strip()),
+                HttpMethod.valueOf(parts[0].strip().toUpperCase()),
                 parts[1].strip(),
                 parts[2].strip());
     }

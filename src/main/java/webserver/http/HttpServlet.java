@@ -16,11 +16,18 @@ public class HttpServlet implements Runnable{
     private ExceptionHandlerMapping handlerMapping;
     private WasServlet servlet;
 
-    public HttpServlet(Socket connection, HttpRequestConverter requestConverter, HttpResponseConverter responseConverter){
-        this.connection = connection;
-        this.requestConverter = requestConverter;
+    public HttpServlet(WasServlet servlet,
+                       ExceptionHandlerMapping handlerMapping,
+                       HttpResponseConverter responseConverter,
+                       HttpRequestConverter requestConverter,
+                       Socket connection) {
+        this.servlet = servlet;
+        this.handlerMapping = handlerMapping;
         this.responseConverter = responseConverter;
+        this.requestConverter = requestConverter;
+        this.connection = connection;
     }
+
     @Override
     public void run() {
 

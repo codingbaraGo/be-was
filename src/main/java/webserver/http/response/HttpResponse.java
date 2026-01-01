@@ -30,7 +30,8 @@ public class HttpResponse {
     }
 
     public List<String> getHeader(String key){
-        return headers.get(key);
+        List<String> values = headers.get(key);
+        return values != null ? values : new ArrayList<>();
     }
 
     public void addHeader(String key, String value){

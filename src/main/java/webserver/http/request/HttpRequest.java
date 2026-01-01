@@ -11,22 +11,22 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpRequest {
-    private HttpMethod method;
+    private final HttpMethod method;
+    private final Map<String, String> headers;
+    private final URI uri;
     private String httpVersion;
     private String contentType;
-    private URI uri;
 
-    private Map<String, String> headers;
     private Map<String, String> queryMap;
 
     private byte[] body;
     private InetSocketAddress requestAddress;
 
     public String getHeader(String key){
-        return headers.get(key);
+        return headers.get(key.toLowerCase());
     }
     public void setHeader(String key, String value){
-        headers.put(key, value);
+        headers.put(key.toLowerCase(), value);
     }
 
     public List<String> getHeaders(){
@@ -52,8 +52,6 @@ public class HttpRequest {
         return this.method;
     }
 
-
-    private HttpRequest (){}
     private HttpRequest (HttpMethod method,
                          String target,
                          String httpVersion) {

@@ -11,7 +11,8 @@ public class HttpBufferedReaderRequestConverter implements HttpRequestConverter 
     private static final Logger logger = LoggerFactory.getLogger(HttpBufferedReaderRequestConverter.class);
     public HttpRequest parseRequest(Socket connection){
 
-        try (InputStream in = connection.getInputStream()) {
+        try {
+            InputStream in = connection.getInputStream();
             InputStreamReader reader = new InputStreamReader(in);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String firstLine = bufferedReader.readLine();
@@ -24,9 +25,11 @@ public class HttpBufferedReaderRequestConverter implements HttpRequestConverter 
                 int idx = line.indexOf(':');
                 //TODO: idx == -1 일 경우 Throw Exception
 
-                request.setHeader(line.substring(0, idx), line.substring(idx));
+                request.setHeader(line.substring(0, idx).strip(), line.substring(idx+1).strip());
                 logger.debug("New Header Added:{} - {}", line.substring(0, idx), line.substring(idx));
             }
+
+            //TODO: Body 파싱 추가
 
             return request;
 

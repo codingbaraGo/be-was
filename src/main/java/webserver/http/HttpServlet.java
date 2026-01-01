@@ -13,8 +13,8 @@ public class HttpServlet implements Runnable{
     private final Socket connection;
     private final HttpRequestConverter requestConverter;
     private final HttpResponseConverter responseConverter;
-    private ExceptionHandlerMapping handlerMapping;
-    private WasServlet servlet;
+    private final ExceptionHandlerMapping handlerMapping;
+    private final WasServlet servlet;
 
     public HttpServlet(WasServlet servlet,
                        ExceptionHandlerMapping handlerMapping,
@@ -37,6 +37,8 @@ public class HttpServlet implements Runnable{
             responseConverter.sendResponse(response, connection);
         } catch (Exception e){
             handlerMapping.handle(e, connection);
+        } finally {
+            try { connection.close(); } catch (Exception ignore) {}
         }
     }
 }

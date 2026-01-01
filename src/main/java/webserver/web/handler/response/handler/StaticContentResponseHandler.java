@@ -22,6 +22,7 @@ public class StaticContentResponseHandler implements WebHandlerResponseHandler{
         String path = staticResponse.getPath();
         File file = new File(DEFAULT_PATH + path);
 
+        //TODO: Prevent path traversal attack
         if (!file.exists() || !file.isFile()) {
             //TODO: Change to Throw Exception
             HttpResponse httpResponse = HttpResponse.of(HttpStatus.NOT_FOUND);

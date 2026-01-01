@@ -21,6 +21,7 @@ public class StaticContentHandler implements WebHandler{
     public boolean checkEndpoint(HttpMethod method, String path) {
         if(!method.equals(HttpMethod.GET)) return false;
         File file = new File(DEFAULT_PATH + path);
+        //TODO: Prevent path traversal attack
         return file.exists() && file.isFile();
     }
 

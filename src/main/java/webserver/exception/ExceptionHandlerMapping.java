@@ -10,9 +10,9 @@ public class ExceptionHandlerMapping {
         this.handlers = handlers;
     }
 
-    public void handle(Exception e, Socket connection){
-        ExceptionHandler handlerAdaptor = handlers.stream().filter(handler -> handler.support(e)).findFirst().orElseThrow();
-        handlerAdaptor.handle(e, connection);
+    public void handle(Throwable e, Socket connection){
+        ExceptionHandler handler = handlers.stream().filter(h -> h.support(e)).findFirst().orElseThrow();
+        handler.handle(e, connection);
     }
 
 }

@@ -3,6 +3,6 @@ package webserver.exception;
 import java.net.Socket;
 
 public interface ExceptionHandler {
-    boolean support(Exception e);
-    void handle(Exception e, Socket connection);
+    boolean support(Throwable e);
+    void handle(Throwable e, Socket connection);
 }

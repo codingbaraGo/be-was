@@ -35,4 +35,25 @@ class HttpRequestConverterTest {
         assertThat(req.getHeader("Host")).isEqualTo("localhost");
         assertThat(req.getHeader("User-Agent")).isEqualTo("junit");
     }
+
+    @Test
+    void parse_GET_request_test2() throws Exception {
+        String raw =
+                "GET /index.html HTTP/1.1\r\n" +
+                        "Host: localhost\r\n" +
+                        "User-Agent: junit\r\n" +
+                        "\r\n";
+
+        Socket socket = mock(Socket.class);
+        when(socket.getInputStream()).thenReturn(
+                new ByteArrayInputStream(raw.getBytes(StandardCharsets.ISO_8859_1))
+        );
+
+        HttpRequest req = converter.parseRequest(socket);
+
+        assertThat(req.getMethod().name()).isEqualTo("GET");
+        assertThat(req.getPath()).isEqualTo("/index.html");
+        assertThat(req.getHeader("Host")).isEqualTo("localhost");
+        assertThat(req.getHeader("User-Agent")).isEqualTo("junit");
+    }
 }

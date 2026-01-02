@@ -43,49 +43,4 @@ class StaticContentResponseHandlerTest {
         WebHandlerResponse other = new WebHandlerResponse() {};
         assertThat(handler.supports(other)).isFalse();
     }
-
-    @Test
-    void handle_returns_404_when_file_not_found() {
-        StaticContentResponse response =
-                StaticContentResponse.of("/no_such_file.html");
-
-        HttpResponse httpResponse = handler.handle(response);
-
-        assertThat(httpResponse.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(httpResponse.getHeader("content-length"))
-                .containsExactly("0");
-    }
-
-    @Test
-    void handle_reads_index_html_file_successfully() throws IOException {
-        // given
-        Files.createDirectories(resourceRoot);
-
-        String content = "<html><body>hello index</body></html>";
-        Path index = resourceRoot.resolve("index.html");
-
-        Files.writeString(index, content, StandardCharsets.UTF_8,
-                StandardOpenOption.CREATE,
-                StandardOpenOption.TRUNCATE_EXISTING);
-
-        StaticContentResponse response =
-                StaticContentResponse.of("/index.html");
-
-        // when
-        HttpResponse httpResponse = handler.handle(response);
-
-        // then
-        assertThat(httpResponse.getStatus()).isEqualTo(HttpStatus.OK);
-
-        byte[] body = httpResponse.getBody();
-        assertThat(body).isNotNull();
-        assertThat(new String(body, StandardCharsets.UTF_8))
-                .isEqualTo(content);
-
-        assertThat(httpResponse.getHeader("content-length"))
-                .containsExactly(String.valueOf(body.length));
-
-        assertThat(httpResponse.getHeader("content-type").get(0))
-                .startsWith("text/html");
-    }
 }

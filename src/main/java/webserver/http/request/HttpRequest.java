@@ -1,9 +1,12 @@
 package webserver.http.request;
 
+import webserver.exception.ErrorCode;
+import webserver.exception.ErrorException;
+import webserver.exception.ServiceException;
 import webserver.http.HttpMethod;
 
 import java.io.UnsupportedEncodingException;
-import java.net.InetSocketAddress;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -20,7 +23,7 @@ public class HttpRequest {
     private Map<String, String> queryMap;
 
     private byte[] body;
-    private InetSocketAddress requestAddress;
+    private InetAddress requestAddress;
 
     public String getHeader(String key){
         return headers.get(key.toLowerCase());
@@ -62,12 +65,26 @@ public class HttpRequest {
 
     }
 
+    public void setRequestAddress(InetAddress requestAddress) {
+        this.requestAddress = requestAddress;
+    }
+
+    public InetAddress getRequestAddress() {
+        return requestAddress;
+    }
+
     public static HttpRequest from(String requestLine){
         String[] parts = requestLine.split(" ");
-        return new HttpRequest(
-                HttpMethod.valueOf(parts[0].strip().toUpperCase()),
-                parts[1].strip(),
-                parts[2].strip());
+        try {
+            return new HttpRequest(
+                    HttpMethod.valueOf(parts[0].strip().toUpperCase()),
+                    parts[1].strip(),
+                    parts[2].strip());
+        } catch (IllegalArgumentException e) {
+            throw new ServiceException(ErrorCode.METHOD_NOT_ALLOWED);
+        } catch (NullPointerException e){
+            throw new ErrorException("Http method error");
+        }
     }
 
 

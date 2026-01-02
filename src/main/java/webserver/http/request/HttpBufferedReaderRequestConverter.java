@@ -17,7 +17,7 @@ public class HttpBufferedReaderRequestConverter implements HttpRequestConverter 
             BufferedReader bufferedReader = new BufferedReader(reader);
             String firstLine = bufferedReader.readLine();
             HttpRequest request = HttpRequest.from(firstLine);
-
+            request.setRequestAddress(connection.getInetAddress());
 
             while (bufferedReader.ready()) {
                 String line = bufferedReader.readLine().strip();
@@ -26,7 +26,7 @@ public class HttpBufferedReaderRequestConverter implements HttpRequestConverter 
                 //TODO: idx == -1 일 경우 Throw Exception
 
                 request.setHeader(line.substring(0, idx).strip(), line.substring(idx+1).strip());
-                logger.debug("New Header Added:{} - {}", line.substring(0, idx), line.substring(idx));
+//                logger.debug("New Header Added:{} - {}", line.substring(0, idx), line.substring(idx));
             }
 
             //TODO: Body 파싱 추가

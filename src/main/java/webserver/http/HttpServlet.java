@@ -13,16 +13,16 @@ public class HttpServlet implements Runnable{
     private final Socket connection;
     private final HttpRequestConverter requestConverter;
     private final HttpResponseConverter responseConverter;
-    private final ExceptionHandlerMapping handlerMapping;
-    private final WasServlet servlet;
+    private final ExceptionHandlerMapping exceptionHandlerMapping;
+    private final WasServlet wasServlet;
 
-    public HttpServlet(WasServlet servlet,
-                       ExceptionHandlerMapping handlerMapping,
+    public HttpServlet(WasServlet wasServlet,
+                       ExceptionHandlerMapping exceptionHandlerMapping,
                        HttpResponseConverter responseConverter,
                        HttpRequestConverter requestConverter,
                        Socket connection) {
-        this.servlet = servlet;
-        this.handlerMapping = handlerMapping;
+        this.wasServlet = wasServlet;
+        this.exceptionHandlerMapping = exceptionHandlerMapping;
         this.responseConverter = responseConverter;
         this.requestConverter = requestConverter;
         this.connection = connection;
@@ -32,11 +32,19 @@ public class HttpServlet implements Runnable{
     public void run() {
 
         try {
+
             HttpRequest request = requestConverter.parseRequest(connection);
-            HttpResponse response = servlet.handle(request);
+            HttpResponse response = wasServlet.handle(request);
             responseConverter.sendResponse(response, connection);
+
         } catch (Exception e){
-            handlerMapping.handle(e, connection);
+            /**
+             * TODO:
+             * ExceptionHandler 또한 HttpResponse를 반환하게 하고
+             * finally에 `responseConverter.sendResponse(response, connection);` 를 넣어
+             * socket에 write를 하는 포인트를 단일 포인트로 관리
+             */
+            exceptionHandlerMapping.handle(e, connection);
         } finally {
             try { connection.close(); } catch (Exception ignore) {}
         }

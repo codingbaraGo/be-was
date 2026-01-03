@@ -2,6 +2,8 @@ package webserver.http.response;
 
 import webserver.http.HttpStatus;
 
+import java.io.File;
+import java.net.URLConnection;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -57,5 +59,29 @@ public class HttpResponse {
     public void setBody(byte[] body) {
         this.body = body;
         setHeader("Content-Length", String.valueOf(body.length));
+    }
+
+    public void setBody(File file, byte[] body) {
+        this.body = body;
+        setHeader("Content-Type", guessContentType(file));
+        setHeader("Content-Length", String.valueOf(body.length));
+    }
+
+    private String guessContentType(File file) {
+        String byName = URLConnection.guessContentTypeFromName(file.getName());
+        if (byName != null) return byName;
+
+        String name = file.getName().toLowerCase();
+        if (name.endsWith(".html") || name.endsWith(".htm")) return "text/html; charset=utf-8";
+        if (name.endsWith(".css")) return "text/css; charset=utf-8";
+        if (name.endsWith(".js")) return "application/javascript; charset=utf-8";
+        if (name.endsWith(".json")) return "application/json; charset=utf-8";
+        if (name.endsWith(".png")) return "image/png";
+        if (name.endsWith(".jpg") || name.endsWith(".jpeg")) return "image/jpeg";
+        if (name.endsWith(".gif")) return "image/gif";
+        if (name.endsWith(".svg")) return "image/svg+xml";
+        if (name.endsWith(".txt")) return "text/plain; charset=utf-8";
+
+        return "application/octet-stream";
     }
 }

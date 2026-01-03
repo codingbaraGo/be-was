@@ -1,18 +1,19 @@
 package webserver.web.handler;
 
+import config.VariableConfig;
 import webserver.http.HttpMethod;
 import webserver.http.request.HttpRequest;
 import webserver.web.handler.response.WebHandlerResponse;
 import webserver.web.handler.response.staticcontent.StaticContentResponse;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * 정
  */
 public class StaticContentHandler implements WebHandler{
-    private final String DEFAULT_PATH = "./src/main/resources/static";
+    private final List<String> staticResourceRoots = VariableConfig.STATIC_RESOURCE_ROOTS;
     @Override
     public HttpMethod getMethod() {
         return HttpMethod.GET;
@@ -21,10 +22,12 @@ public class StaticContentHandler implements WebHandler{
     @Override
     public boolean checkEndpoint(HttpMethod method, String path) {
         if(!method.equals(HttpMethod.GET)) return false;
-        File file1 = new File(DEFAULT_PATH + path);
-        File file2 = new File(DEFAULT_PATH + path + "/index.html");
-        //TODO: Prevent path traversal attack
-        return (file1.exists() && file1.isFile()) || (file2.exists() && file2.isFile());
+        return staticResourceRoots.stream().anyMatch(root ->{
+            File requestedFile = new File(root + path);
+            String indexFilePath = path + (path.endsWith("/") ? "index.html" : "/index.html");
+            File indexFile = new File(root + indexFilePath);
+            return (requestedFile.exists() && requestedFile.isFile()) || (indexFile.exists() && indexFile.isFile());
+        });
     }
 
     @Override

@@ -9,9 +9,6 @@ import web.response.StaticContentResponse;
 import java.io.File;
 import java.util.List;
 
-/**
- * 정
- */
 public class StaticContentHandler implements WebHandler{
     private final List<String> staticResourceRoots = VariableConfig.STATIC_RESOURCE_ROOTS;
     @Override

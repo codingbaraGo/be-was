@@ -18,6 +18,6 @@ public class DependencyLoader {
         this.httpRequestConverter = appConfig.httpRequestConverter();
         this.httpResponseConverter = appConfig.httpResponseConverter();
         this.exceptionHandlerMapping = appConfig.exceptionHandlerMapping();
-        this.dispatcher = appConfig.wasServlet();
+        this.dispatcher = appConfig.dispatcher();
     }
 }

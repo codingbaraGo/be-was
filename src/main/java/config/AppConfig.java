@@ -37,7 +37,7 @@ public class AppConfig {
 
 
     //Web
-    public Dispatcher wasServlet(){
+    public Dispatcher dispatcher(){
         return new Dispatcher(
                 webHandlerList(),
                 webHandlerResponseHandlerList()

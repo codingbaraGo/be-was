@@ -1,20 +1,20 @@
 package config;
 
 import app.handler.RegisterHandlerImpl;
-import web.exception.ExceptionHandlerMapping;
-import web.exception.handler.ErrorExceptionHandler;
-import web.exception.handler.ServiceExceptionHandler;
-import web.exception.handler.UnhandledErrorHandler;
+import exception.ExceptionHandlerMapping;
+import exception.handler.ErrorExceptionHandler;
+import exception.handler.ServiceExceptionHandler;
+import exception.handler.UnhandledErrorHandler;
 import http.request.HttpBufferedReaderRequestConverter;
 import http.request.HttpRequestConverter;
 import http.response.HttpBufferedStreamResponseConverter;
 import http.response.HttpResponseConverter;
 import web.dispatch.Dispatcher;
-import web.web.handler.StaticContentHandler;
-import web.web.handler.WebHandler;
-import web.web.handler.response.handler.StaticContentResponseHandler;
-import web.web.handler.response.handler.ViewResponseHandler;
-import web.web.handler.response.handler.WebHandlerResponseHandler;
+import web.handler.StaticContentHandler;
+import web.handler.WebHandler;
+import web.posthandler.StaticContentResponseHandler;
+import web.posthandler.ViewResponseHandler;
+import web.posthandler.WebHandlerResponseHandler;
 
 import java.util.List;
 

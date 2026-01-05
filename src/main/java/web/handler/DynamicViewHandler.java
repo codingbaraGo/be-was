@@ -1,8 +1,8 @@
-package web.web.handler;
+package web.handler;
 
 import http.HttpMethod;
 import http.request.HttpRequest;
-import web.web.handler.response.view.ViewResponse;
+import web.response.ViewResponse;
 
 public abstract class DynamicViewHandler implements WebHandler{
     protected final HttpMethod method;

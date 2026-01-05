@@ -1,8 +1,8 @@
 package http.request;
 
-import web.exception.ErrorCode;
-import web.exception.ErrorException;
-import web.exception.ServiceException;
+import exception.ErrorCode;
+import exception.ErrorException;
+import exception.ServiceException;
 import http.HttpMethod;
 
 import java.io.UnsupportedEncodingException;

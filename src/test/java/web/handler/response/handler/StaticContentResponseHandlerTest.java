@@ -1,8 +1,9 @@
-package web.web.handler.response.handler;
+package web.handler.response.handler;
 
 import org.junit.jupiter.api.*;
-import web.web.handler.response.WebHandlerResponse;
-import web.web.handler.response.staticcontent.StaticContentResponse;
+import web.response.WebHandlerResponse;
+import web.posthandler.StaticContentResponseHandler;
+import web.response.StaticContentResponse;
 
 import java.io.IOException;
 import java.nio.file.*;

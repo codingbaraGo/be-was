@@ -1,4 +1,4 @@
-package web.exception;
+package exception;
 
 public class ErrorException extends RuntimeException {
     private final ErrorCode errorCode;

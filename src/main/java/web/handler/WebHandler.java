@@ -1,8 +1,8 @@
-package web.web.handler;
+package web.handler;
 
 import http.HttpMethod;
 import http.request.HttpRequest;
-import web.web.handler.response.WebHandlerResponse;
+import web.response.WebHandlerResponse;
 
 public interface WebHandler {
     HttpMethod getMethod();

@@ -1,6 +1,4 @@
-package web.web.handler.response.view;
-
-import web.web.handler.response.WebHandlerResponse;
+package web.response;
 
 public class ViewResponse implements WebHandlerResponse {
     private final String viewPath;

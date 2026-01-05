@@ -1,10 +1,10 @@
-package web.web.handler;
+package web.handler;
 
 import config.VariableConfig;
 import http.HttpMethod;
 import http.request.HttpRequest;
-import web.web.handler.response.WebHandlerResponse;
-import web.web.handler.response.staticcontent.StaticContentResponse;
+import web.response.WebHandlerResponse;
+import web.response.StaticContentResponse;
 
 import java.io.File;
 import java.util.List;

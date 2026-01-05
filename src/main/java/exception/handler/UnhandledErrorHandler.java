@@ -1,8 +1,8 @@
-package web.exception.handler;
+package exception.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import web.exception.ExceptionHandler;
+import exception.ExceptionHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;

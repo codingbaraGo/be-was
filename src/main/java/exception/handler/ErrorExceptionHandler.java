@@ -1,8 +1,10 @@
-package web.exception.handler;
+package exception.handler;
 
-import web.exception.ErrorCode;
-import web.exception.ServiceException;
-import web.exception.ExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import exception.ErrorCode;
+import exception.ErrorException;
+import exception.ExceptionHandler;
 import http.HttpStatus;
 
 import java.io.IOException;
@@ -12,15 +14,17 @@ import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ServiceExceptionHandler implements ExceptionHandler {
+public class ErrorExceptionHandler implements ExceptionHandler {
+    private final Logger logger = LoggerFactory.getLogger(ErrorException.class);
     @Override
     public boolean support(Throwable e) {
-        return e instanceof ServiceException;
+        return e instanceof ErrorException;
     }
 
     @Override
     public void handle(Throwable t, Socket connection) {
-        ServiceException error = (ServiceException) t;
+        ErrorException error = (ErrorException) t;
+        logger.debug(error.getThrowable().toString());
         ErrorCode errorCode = error.getErrorCode();
         HttpStatus status = errorCode.getStatus();
 

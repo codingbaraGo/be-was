@@ -1,11 +1,11 @@
-package web.web.handler.response.handler;
+package web.posthandler;
 
 import config.VariableConfig;
-import web.exception.ErrorException;
+import exception.ErrorException;
 import http.HttpStatus;
 import http.response.HttpResponse;
-import web.web.handler.response.WebHandlerResponse;
-import web.web.handler.response.staticcontent.StaticContentResponse;
+import web.response.WebHandlerResponse;
+import web.response.StaticContentResponse;
 
 import java.io.*;
 import java.util.List;

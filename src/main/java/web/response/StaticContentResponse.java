@@ -1,6 +1,4 @@
-package web.web.handler.response.staticcontent;
-
-import web.web.handler.response.WebHandlerResponse;
+package web.response;
 
 public class StaticContentResponse implements WebHandlerResponse {
     private final String path;

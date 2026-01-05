@@ -2,15 +2,15 @@ package web.dispatch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import web.exception.ErrorCode;
-import web.exception.ErrorException;
-import web.exception.ServiceException;
+import exception.ErrorCode;
+import exception.ErrorException;
+import exception.ServiceException;
 import http.HttpMethod;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
-import web.web.handler.WebHandler;
-import web.web.handler.response.WebHandlerResponse;
-import web.web.handler.response.handler.WebHandlerResponseHandler;
+import web.handler.WebHandler;
+import web.response.WebHandlerResponse;
+import web.posthandler.WebHandlerResponseHandler;
 
 import java.util.*;
 

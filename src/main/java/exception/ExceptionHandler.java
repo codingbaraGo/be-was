@@ -1,4 +1,4 @@
-package web.exception;
+package exception;
 
 import java.net.Socket;
 

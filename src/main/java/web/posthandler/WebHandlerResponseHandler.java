@@ -1,7 +1,7 @@
-package web.web.handler.response.handler;
+package web.posthandler;
 
 import http.response.HttpResponse;
-import web.web.handler.response.WebHandlerResponse;
+import web.response.WebHandlerResponse;
 
 public interface WebHandlerResponseHandler {
     boolean supports(WebHandlerResponse response);

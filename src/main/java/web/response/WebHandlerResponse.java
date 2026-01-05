@@ -1,4 +1,4 @@
-package web.web.handler.response;
+package web.response;
 
 public interface WebHandlerResponse {
 }

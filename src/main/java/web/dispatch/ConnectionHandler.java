@@ -1,6 +1,6 @@
 package web.dispatch;
 
-import web.exception.ExceptionHandlerMapping;
+import exception.ExceptionHandlerMapping;
 import http.response.HttpResponseConverter;
 import http.request.HttpRequestConverter;
 import http.request.HttpRequest;

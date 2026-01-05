@@ -4,34 +4,24 @@ import webserver.exception.ErrorException;
 import webserver.http.HttpStatus;
 import webserver.http.response.HttpResponse;
 import webserver.web.handler.response.WebHandlerResponse;
-import webserver.web.handler.response.staticcontent.StaticContentResponse;
+import webserver.web.handler.response.view.ViewResponse;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URLConnection;
 
-public class StaticContentResponseHandler implements WebHandlerResponseHandler{
+public class ViewResponseHandler implements WebHandlerResponseHandler {
     private final String DEFAULT_PATH = "./src/main/resources/static";
     @Override
     public boolean supports(WebHandlerResponse response) {
-        return response instanceof StaticContentResponse;
+        return response instanceof ViewResponse;
     }
 
     @Override
     public HttpResponse handle(WebHandlerResponse handlerResponse) {
-        StaticContentResponse staticResponse = (StaticContentResponse) handlerResponse;
-
-        String path = staticResponse.getPath();
-        File file;
-        File file1 = new File(DEFAULT_PATH + path);
-        File file2 = new File(DEFAULT_PATH + path + "/index.html");
-
-        if(file1.exists() && file1.isFile()) file = file1;
-        else file = file2;
-
-        //TODO: Prevent path traversal attack
-        if (!file.exists() || !file.isFile()) {
-            throw new ErrorException("Static content path Error");
-        }
+        File file = getFile((ViewResponse) handlerResponse);
 
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
             byte[] body = in.readAllBytes();
@@ -46,8 +36,27 @@ public class StaticContentResponseHandler implements WebHandlerResponseHandler{
             return httpResponse;
 
         } catch (IOException e) {
-            throw new ErrorException("Static content Read IO-Error");
+            throw new ErrorException("Static-View file path Error");
         }
+    }
+
+    private File getFile(ViewResponse handlerResponse) {
+        ViewResponse staticResponse = handlerResponse;
+
+        String path = staticResponse.getViewPath();
+        File file;
+        File file1 = new File(DEFAULT_PATH + path);
+        File file2 = new File(DEFAULT_PATH + path + "/index.html");
+
+        if(file1.exists() && file1.isFile()) file = file1;
+        else file = file2;
+
+
+        //TODO: Prevent path traversal attack
+        if (!file.exists() || !file.isFile()) {
+            throw new ErrorException("Static-View Read IO-Error");
+        }
+        return file;
     }
 
     private String guessContentType(File file) {

@@ -1,8 +1,8 @@
 package config;
 
 import webserver.exception.ExceptionHandlerMapping;
-import webserver.http.request.HttpRequestConverter;
-import webserver.http.response.HttpResponseConverter;
+import http.request.HttpRequestConverter;
+import http.response.HttpResponseConverter;
 import webserver.web.WasServlet;
 
 public class DependencyLoader {

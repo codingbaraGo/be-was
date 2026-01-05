@@ -1,7 +1,7 @@
 package webserver.exception;
 
 
-import webserver.http.HttpStatus;
+import http.HttpStatus;
 
 public enum ErrorCode {
     /* Internal Error */

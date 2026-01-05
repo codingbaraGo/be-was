@@ -1,6 +1,6 @@
-package webserver.http.response;
+package http.response;
 
-import webserver.http.HttpStatus;
+import http.HttpStatus;
 
 import java.io.File;
 import java.net.URLConnection;

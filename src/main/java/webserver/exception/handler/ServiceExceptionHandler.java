@@ -1,11 +1,9 @@
 package webserver.exception.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import webserver.exception.ErrorCode;
 import webserver.exception.ServiceException;
 import webserver.exception.ExceptionHandler;
-import webserver.http.HttpStatus;
+import http.HttpStatus;
 
 import java.io.IOException;
 import java.io.OutputStream;

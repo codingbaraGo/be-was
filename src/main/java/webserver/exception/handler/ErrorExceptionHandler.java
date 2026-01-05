@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import webserver.exception.ErrorCode;
 import webserver.exception.ErrorException;
 import webserver.exception.ExceptionHandler;
-import webserver.http.HttpStatus;
+import http.HttpStatus;
 
 import java.io.IOException;
 import java.io.OutputStream;

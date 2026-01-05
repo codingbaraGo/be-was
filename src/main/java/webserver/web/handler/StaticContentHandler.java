@@ -1,8 +1,8 @@
 package webserver.web.handler;
 
 import config.VariableConfig;
-import webserver.http.HttpMethod;
-import webserver.http.request.HttpRequest;
+import http.HttpMethod;
+import http.request.HttpRequest;
 import webserver.web.handler.response.WebHandlerResponse;
 import webserver.web.handler.response.staticcontent.StaticContentResponse;
 

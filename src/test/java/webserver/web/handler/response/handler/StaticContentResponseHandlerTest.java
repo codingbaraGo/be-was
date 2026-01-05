@@ -1,13 +1,10 @@
 package webserver.web.handler.response.handler;
 
 import org.junit.jupiter.api.*;
-import webserver.http.HttpStatus;
-import webserver.http.response.HttpResponse;
 import webserver.web.handler.response.WebHandlerResponse;
 import webserver.web.handler.response.staticcontent.StaticContentResponse;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
 import static org.assertj.core.api.Assertions.*;

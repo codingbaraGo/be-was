@@ -1,7 +1,7 @@
 package webserver.web.handler;
 
-import webserver.http.HttpMethod;
-import webserver.http.request.HttpRequest;
+import http.HttpMethod;
+import http.request.HttpRequest;
 import webserver.web.handler.response.view.ViewResponse;
 
 public abstract class DynamicViewHandler implements WebHandler{

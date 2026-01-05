@@ -1,9 +1,9 @@
-package webserver.http.request;
+package http.request;
 
 import webserver.exception.ErrorCode;
 import webserver.exception.ErrorException;
 import webserver.exception.ServiceException;
-import webserver.http.HttpMethod;
+import http.HttpMethod;
 
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;

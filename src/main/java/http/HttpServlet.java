@@ -1,11 +1,11 @@
-package webserver.http;
+package http;
 
 import webserver.exception.ExceptionHandlerMapping;
-import webserver.http.response.HttpResponseConverter;
+import http.response.HttpResponseConverter;
 import webserver.web.WasServlet;
-import webserver.http.request.HttpRequestConverter;
-import webserver.http.request.HttpRequest;
-import webserver.http.response.HttpResponse;
+import http.request.HttpRequestConverter;
+import http.request.HttpRequest;
+import http.response.HttpResponse;
 
 import java.net.Socket;
 

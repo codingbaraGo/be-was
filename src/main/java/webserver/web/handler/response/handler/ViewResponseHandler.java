@@ -2,8 +2,8 @@ package webserver.web.handler.response.handler;
 
 import config.VariableConfig;
 import webserver.exception.ErrorException;
-import webserver.http.HttpStatus;
-import webserver.http.response.HttpResponse;
+import http.HttpStatus;
+import http.response.HttpResponse;
 import webserver.web.handler.response.WebHandlerResponse;
 import webserver.web.handler.response.view.ViewResponse;
 

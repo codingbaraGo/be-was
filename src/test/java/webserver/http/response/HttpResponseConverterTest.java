@@ -1,9 +1,12 @@
 package webserver.http.response;
 
+import http.response.HttpBufferedStreamResponseConverter;
+import http.response.HttpResponse;
+import http.response.HttpResponseConverter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import webserver.http.HttpStatus;
+import http.HttpStatus;
 
 import java.io.ByteArrayOutputStream;
 import java.net.Socket;

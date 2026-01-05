@@ -1,4 +1,4 @@
-package webserver.http.request;
+package http.request;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

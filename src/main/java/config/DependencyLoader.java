@@ -1,4 +1,4 @@
-package dependency;
+package config;
 
 import webserver.exception.ExceptionHandlerMapping;
 import webserver.http.request.HttpRequestConverter;

@@ -1,4 +1,4 @@
-package dependency;
+package config;
 
 import app.handler.RegisterHandlerImpl;
 import webserver.exception.ExceptionHandlerMapping;

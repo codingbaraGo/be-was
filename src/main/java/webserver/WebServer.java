@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import dependency.DependencyLoader;
+import config.DependencyLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.http.HttpServlet;

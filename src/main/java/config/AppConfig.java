@@ -1,20 +1,20 @@
 package config;
 
 import app.handler.RegisterHandlerImpl;
-import webserver.exception.ExceptionHandlerMapping;
-import webserver.exception.handler.ErrorExceptionHandler;
-import webserver.exception.handler.ServiceExceptionHandler;
-import webserver.exception.handler.UnhandledErrorHandler;
+import web.exception.ExceptionHandlerMapping;
+import web.exception.handler.ErrorExceptionHandler;
+import web.exception.handler.ServiceExceptionHandler;
+import web.exception.handler.UnhandledErrorHandler;
 import http.request.HttpBufferedReaderRequestConverter;
 import http.request.HttpRequestConverter;
 import http.response.HttpBufferedStreamResponseConverter;
 import http.response.HttpResponseConverter;
-import webserver.web.WasServlet;
-import webserver.web.handler.StaticContentHandler;
-import webserver.web.handler.WebHandler;
-import webserver.web.handler.response.handler.StaticContentResponseHandler;
-import webserver.web.handler.response.handler.ViewResponseHandler;
-import webserver.web.handler.response.handler.WebHandlerResponseHandler;
+import web.dispatch.Dispatcher;
+import web.web.handler.StaticContentHandler;
+import web.web.handler.WebHandler;
+import web.web.handler.response.handler.StaticContentResponseHandler;
+import web.web.handler.response.handler.ViewResponseHandler;
+import web.web.handler.response.handler.WebHandlerResponseHandler;
 
 import java.util.List;
 
@@ -37,8 +37,8 @@ public class AppConfig {
 
 
     //Web
-    public WasServlet wasServlet(){
-        return new WasServlet(
+    public Dispatcher wasServlet(){
+        return new Dispatcher(
                 webHandlerList(),
                 webHandlerResponseHandlerList()
         );

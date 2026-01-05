@@ -4,8 +4,8 @@ import app.db.Database;
 import app.model.User;
 import http.HttpMethod;
 import http.request.HttpRequest;
-import webserver.web.handler.DynamicViewHandler;
-import webserver.web.handler.response.view.ViewResponse;
+import web.web.handler.DynamicViewHandler;
+import web.web.handler.response.view.ViewResponse;
 
 public class RegisterHandlerImpl extends DynamicViewHandler {
     public RegisterHandlerImpl() {

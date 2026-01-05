@@ -1,6 +1,6 @@
 package dependency;
 
-import webserver.RegisterHandlerImpl;
+import app.handler.RegisterHandlerImpl;
 import webserver.exception.ExceptionHandlerMapping;
 import webserver.exception.handler.ErrorExceptionHandler;
 import webserver.exception.handler.ServiceExceptionHandler;

@@ -1,7 +1,7 @@
-package webserver;
+package app.handler;
 
-import db.Database;
-import model.User;
+import app.db.Database;
+import app.model.User;
 import webserver.http.HttpMethod;
 import webserver.http.request.HttpRequest;
 import webserver.web.handler.DynamicViewHandler;

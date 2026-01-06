@@ -1,9 +1,12 @@
 package web.response;
 
-public class StaticContentResponse implements WebHandlerResponse {
+import http.HttpStatus;
+
+public class StaticContentResponse extends WebHandlerResponse {
     private final String path;
 
     private StaticContentResponse(String path) {
+        super(HttpStatus.OK);
         this.path = path;
     }
 

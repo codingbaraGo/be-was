@@ -16,10 +16,12 @@ import java.util.*;
 
 public class Dispatcher {
     private final Map<HttpMethod, List<WebHandler>> handlerMapping;
+    private final List<HandlerAdapter> adapterList;
     private final List<WebHandlerResponseHandler> responseHandlerList;
     private final Logger logger = LoggerFactory.getLogger(Dispatcher.class);
 
-    public Dispatcher(List<WebHandler> handlerMapping, List<WebHandlerResponseHandler> responseHandlerList) {
+    public Dispatcher(List<WebHandler> handlerMapping, List<HandlerAdapter> adapterList, List<WebHandlerResponseHandler> responseHandlerList) {
+        this.adapterList = adapterList;
         this.responseHandlerList = responseHandlerList;
         this.handlerMapping = new HashMap<>();
         Arrays.stream(HttpMethod.values()).forEach(m -> this.handlerMapping.put(m, new ArrayList<>()));
@@ -27,8 +29,8 @@ public class Dispatcher {
     }
 
     public HttpResponse handle(HttpRequest request){
-        HttpMethod method = request.getMethod();
-        logger.debug(method.name() + " " + request.getPath() + "  " + request.getQuery() + " from" + request.getRequestAddress());
+        logger.debug("{}: {} - {} from {}",
+                request.getMethod(), request.getPath(), request.getQueryString(), request.getRequestAddress());
 
         WebHandler handler = handlerMapping.get(method).stream()
                 .filter(h -> h.checkEndpoint(method, request.getPath()))

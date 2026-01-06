@@ -32,7 +32,7 @@ public class ViewResponseHandler implements WebHandlerResponseHandler {
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
             byte[] body = in.readAllBytes();
 
-            HttpResponse httpResponse = HttpResponse.of(HttpStatus.OK);
+            HttpResponse httpResponse = HttpResponse.of(handlerResponse.getStatus());
             httpResponse.setBody(file, body);
             return httpResponse;
 

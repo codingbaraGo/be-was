@@ -1,14 +1,13 @@
 package web.handler;
 
 import http.HttpMethod;
-import http.request.HttpRequest;
-import web.response.ViewResponse;
+import web.response.WebHandlerResponse;
 
-public abstract class DynamicViewHandler implements WebHandler{
+public abstract class SingleArgHandler<T> implements WebHandler{
     protected final HttpMethod method;
     protected final String path;
 
-    protected DynamicViewHandler(HttpMethod method, String path) {
+    protected SingleArgHandler(HttpMethod method, String path) {
         this.method = method;
         this.path = path;
     }
@@ -27,5 +26,5 @@ public abstract class DynamicViewHandler implements WebHandler{
         return this.method.equals(method) && this.path.equals(path);
     }
 
-    public abstract ViewResponse handle(HttpRequest request);
+    public abstract WebHandlerResponse handle(T arg);
 }

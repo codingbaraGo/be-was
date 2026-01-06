@@ -12,6 +12,7 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class HttpRequest {
     private final HttpMethod method;
@@ -20,6 +21,7 @@ public class HttpRequest {
     private String httpVersion;
     private String contentType;
 
+    //TODO: Map<String, List<String>> 타입으로 변경
     private Map<String, String> queryMap;
 
     private byte[] body;
@@ -40,15 +42,19 @@ public class HttpRequest {
         return uri.getPath();
     }
 
-    public String getQuery(){
+    public String getQueryString(){
         return uri.getQuery();
     }
 
-    public String getQueryValue(String key){
+    public List<String> getQueryKeys(){
+        return queryMap.keySet().stream().toList();
+    }
+
+    public Optional<String> getQueryValue(String key){
         if (queryMap == null) {
             queryMap = parseQueryToMap(uri.getQuery());
         }
-        return queryMap.get(key);
+        return Optional.of(queryMap.get(key));
     }
 
     public HttpMethod getMethod(){
@@ -88,7 +94,7 @@ public class HttpRequest {
     }
 
 
-    private static Map<String, String> parseQueryToMap(String queryString) {
+    private Map<String, String> parseQueryToMap(String queryString) {
         Map<String, String> map = new HashMap<>();
         if (queryString == null || queryString.isBlank()) {
             return map;
@@ -109,7 +115,7 @@ public class HttpRequest {
         return map;
     }
 
-    private static String urlDecode(String s) {
+    private String urlDecode(String s) {
         try {
             return URLDecoder.decode(s, "UTF-8");
         } catch (UnsupportedEncodingException e) {

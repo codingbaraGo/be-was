@@ -33,8 +33,8 @@ class HttpRequestConverterTest {
 
         assertThat(req.getMethod().name()).isEqualTo("GET");
         assertThat(req.getPath()).isEqualTo("/hello");
-        assertThat(req.getQueryValue("name")).isEqualTo("ta");
-        assertThat(req.getQueryValue("x")).isEqualTo("1");
+        assertThat(req.getQueryValue("name").get()).isEqualTo("ta");
+        assertThat(req.getQueryValue("x").get()).isEqualTo("1");
         assertThat(req.getHeader("Host")).isEqualTo("localhost");
         assertThat(req.getHeader("User-Agent")).isEqualTo("junit");
     }

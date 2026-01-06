@@ -16,7 +16,7 @@ public class QueryParameters {
     }
 
     public Optional<String> getValue(String key){
-        return Optional.of(params.get(key).get(0));
+        return Optional.ofNullable(params.get(key).get(0));
     }
 
     public List<String> getValues(String key){

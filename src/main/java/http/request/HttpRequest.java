@@ -54,7 +54,7 @@ public class HttpRequest {
         if (queryMap == null) {
             queryMap = parseQueryToMap(uri.getQuery());
         }
-        return Optional.of(queryMap.get(key));
+        return Optional.ofNullable(queryMap.get(key));
     }
 
     public HttpMethod getMethod(){

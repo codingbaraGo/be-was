@@ -1,5 +1,6 @@
 package web.handler.response.handler;
 
+import http.HttpStatus;
 import org.junit.jupiter.api.*;
 import web.response.WebHandlerResponse;
 import web.posthandler.StaticContentResponseHandler;
@@ -38,7 +39,7 @@ class StaticContentResponseHandlerTest {
 
     @Test
     void supports_false_when_response_is_not_StaticContentResponse() {
-        WebHandlerResponse other = new WebHandlerResponse() {};
+        WebHandlerResponse other = new WebHandlerResponse(HttpStatus.OK) {};
         assertThat(handler.supports(other)).isFalse();
     }
 }

@@ -2,12 +2,14 @@ package app.handler;
 
 import app.db.Database;
 import app.model.User;
+import exception.ErrorCode;
+import exception.ServiceException;
 import http.HttpMethod;
 import http.request.HttpRequest;
-import web.handler.DynamicViewHandler;
+import web.handler.SingleArgHandler;
 import web.response.ViewResponse;
 
-public class RegisterHandlerImpl extends DynamicViewHandler {
+public class RegisterHandlerImpl extends SingleArgHandler<HttpRequest> {
     public RegisterHandlerImpl() {
         super(HttpMethod.GET,
                 "/create");
@@ -15,10 +17,10 @@ public class RegisterHandlerImpl extends DynamicViewHandler {
 
     @Override
     public ViewResponse handle(HttpRequest request) {
-        String userId = request.getQueryValue("userId");
-        String password = request.getQueryValue("password");
-        String name = request.getQueryValue("name");
-        String email = request.getQueryValue("email");
+        String userId = request.getQueryValue("userId").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "userId required"));
+        String password = request.getQueryValue("password").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "password required"));
+        String name = request.getQueryValue("name").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "name required"));
+        String email = request.getQueryValue("email").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "email required"));
         Database.addUser(new User(userId, password, name, email));
         return ViewResponse.of("/login");
     }

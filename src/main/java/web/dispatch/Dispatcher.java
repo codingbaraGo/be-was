@@ -32,10 +32,14 @@ public class Dispatcher {
         logger.debug("{}: {} - {} from {}",
                 request.getMethod(), request.getPath(), request.getQueryString(), request.getRequestAddress());
 
-        WebHandler handler = handlerMapping.get(method).stream()
-                .filter(h -> h.checkEndpoint(method, request.getPath()))
+        WebHandler handler = handlerMapping.get(request.getMethod()).stream()
+                .filter(h -> h.checkEndpoint(request.getMethod(), request.getPath()))
                 .findFirst().orElseThrow(()-> new ServiceException(ErrorCode.NO_SUCH_RESOURCE));
-        WebHandlerResponse response = handler.handle(request);
+
+        HandlerAdapter adapter = adapterList.stream().filter(ha -> ha.support(handler))
+                .findFirst().orElseThrow(() -> new ErrorException("DispatcherError: No adapter matched"));
+
+        WebHandlerResponse response = adapter.handle(request, handler);
 
         WebHandlerResponseHandler responseHandler = responseHandlerList.stream()
                 .filter(rh -> rh.supports(response))

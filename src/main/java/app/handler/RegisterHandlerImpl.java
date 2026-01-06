@@ -6,10 +6,10 @@ import exception.ErrorCode;
 import exception.ServiceException;
 import http.HttpMethod;
 import http.request.HttpRequest;
-import web.handler.DynamicViewHandler;
+import web.handler.SingleArgHandler;
 import web.response.ViewResponse;
 
-public class RegisterHandlerImpl extends DynamicViewHandler {
+public class RegisterHandlerImpl extends SingleArgHandler<HttpRequest> {
     public RegisterHandlerImpl() {
         super(HttpMethod.GET,
                 "/create");

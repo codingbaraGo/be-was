@@ -9,7 +9,13 @@ import http.request.HttpBufferedReaderRequestConverter;
 import http.request.HttpRequestConverter;
 import http.response.HttpBufferedStreamResponseConverter;
 import http.response.HttpResponseConverter;
+import web.dispatch.ArgumentResolver;
 import web.dispatch.Dispatcher;
+import web.dispatch.HandlerAdapter;
+import web.dispatch.adapter.DefaultHandlerAdapter;
+import web.dispatch.adapter.SingleArgHandlerAdapter;
+import web.dispatch.argument.HttpRequestResolver;
+import web.dispatch.argument.QueryParamsResolver;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
 import web.posthandler.StaticContentResponseHandler;
@@ -40,6 +46,7 @@ public class AppConfig {
     public Dispatcher dispatcher(){
         return new Dispatcher(
                 webHandlerList(),
+                handlerAdapterList(),
                 webHandlerResponseHandlerList()
         );
     }
@@ -70,6 +77,38 @@ public class AppConfig {
         return new StaticContentResponseHandler();
     }
 
+
+    //Adapter
+    public List<HandlerAdapter> handlerAdapterList(){
+        return List.of(
+                singleArgHandlerAdapter(),
+                defaultHandlerAdapter()
+        );
+    }
+
+    private SingleArgHandlerAdapter singleArgHandlerAdapter(){
+        return new SingleArgHandlerAdapter(
+                argumentResolverList()
+        );
+    }
+    private DefaultHandlerAdapter defaultHandlerAdapter(){
+        return new DefaultHandlerAdapter();
+    }
+
+    //Resolver
+    public List<ArgumentResolver<?>> argumentResolverList(){
+        return List.of(
+                httpRequestResolver(),
+                queryParamsResolver()
+        );
+    }
+
+    private HttpRequestResolver httpRequestResolver(){
+        return new HttpRequestResolver();
+    }
+    private QueryParamsResolver queryParamsResolver(){
+        return new QueryParamsResolver();
+    }
 
     //Exception
     public ExceptionHandlerMapping exceptionHandlerMapping(){

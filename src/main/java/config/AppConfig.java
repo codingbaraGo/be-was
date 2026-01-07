@@ -19,7 +19,7 @@ import web.dispatch.argument.QueryParamsResolver;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
 import web.renderer.StaticViewRenderer;
-import web.renderer.WebHandlerResponseRenderer;
+import web.renderer.HttpResponseRenderer;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class AppConfig {
         return new RegisterHandlerImpl();
     }
 
-    private List<WebHandlerResponseRenderer> webHandlerResponseHandlerList(){
+    private List<HttpResponseRenderer> webHandlerResponseHandlerList(){
         return List.of(
                 staticViewResponseHandler()
         );

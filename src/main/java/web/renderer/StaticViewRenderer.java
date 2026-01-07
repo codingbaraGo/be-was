@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
-public class StaticViewRenderer implements WebHandlerResponseRenderer {
+public class StaticViewRenderer implements HttpResponseRenderer {
     private final List<String> staticResourceRoots = VariableConfig.STATIC_RESOURCE_ROOTS;
     @Override
     public boolean supports(HandlerResponse response) {

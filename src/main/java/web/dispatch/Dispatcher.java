@@ -10,17 +10,17 @@ import http.request.HttpRequest;
 import http.response.HttpResponse;
 import web.handler.WebHandler;
 import web.response.HandlerResponse;
-import web.renderer.WebHandlerResponseRenderer;
+import web.renderer.HttpResponseRenderer;
 
 import java.util.*;
 
 public class Dispatcher {
     private final Map<HttpMethod, List<WebHandler>> handlerMapping;
     private final List<HandlerAdapter> adapterList;
-    private final List<WebHandlerResponseRenderer> responseHandlerList;
+    private final List<HttpResponseRenderer> responseHandlerList;
     private final Logger logger = LoggerFactory.getLogger(Dispatcher.class);
 
-    public Dispatcher(List<WebHandler> handlerMapping, List<HandlerAdapter> adapterList, List<WebHandlerResponseRenderer> responseHandlerList) {
+    public Dispatcher(List<WebHandler> handlerMapping, List<HandlerAdapter> adapterList, List<HttpResponseRenderer> responseHandlerList) {
         this.adapterList = adapterList;
         this.responseHandlerList = responseHandlerList;
         this.handlerMapping = new HashMap<>();
@@ -41,7 +41,7 @@ public class Dispatcher {
 
         HandlerResponse response = adapter.handle(request, handler);
 
-        WebHandlerResponseRenderer responseHandler = responseHandlerList.stream()
+        HttpResponseRenderer responseHandler = responseHandlerList.stream()
                 .filter(rh -> rh.supports(response))
                 .findFirst().orElseThrow(()-> new ErrorException("Post handler not exists"));
         return responseHandler.handle(response);

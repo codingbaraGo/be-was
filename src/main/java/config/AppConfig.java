@@ -62,13 +62,13 @@ public class AppConfig {
 
     private List<WebHandlerResponseRenderer> webHandlerResponseHandlerList(){
         return List.of(
-                staticContentResponseHandler()
+                staticViewResponseHandler()
         );
     }
     private StaticContentHandler staticContentHandler(){
         return new StaticContentHandler();
     }
-    private StaticViewRenderer staticContentResponseHandler(){
+    private StaticViewRenderer staticViewResponseHandler(){
         return new StaticViewRenderer();
     }
 

@@ -4,8 +4,8 @@ import config.VariableConfig;
 import exception.ErrorException;
 import http.HttpMethod;
 import http.request.HttpRequest;
-import web.response.WebHandlerResponse;
-import web.response.StaticContentResponse;
+import web.response.HandlerResponse;
+import web.response.StaticViewResponse;
 
 import java.io.File;
 import java.util.List;
@@ -38,7 +38,7 @@ public class StaticContentHandler implements DefaultHandler {
     }
 
     @Override
-    public WebHandlerResponse handle(HttpRequest request) {
-        return StaticContentResponse.of(request.getPath());
+    public HandlerResponse handle(HttpRequest request) {
+        return StaticViewResponse.of(request.getPath());
     }
 }

@@ -6,7 +6,7 @@ import web.dispatch.ArgumentResolver;
 import web.dispatch.HandlerAdapter;
 import web.handler.SingleArgHandler;
 import web.handler.WebHandler;
-import web.response.WebHandlerResponse;
+import web.response.HandlerResponse;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -26,7 +26,7 @@ public class SingleArgHandlerAdapter implements HandlerAdapter {
 
     @Override
     @SuppressWarnings("unchecked")
-    public WebHandlerResponse handle(HttpRequest request, WebHandler handler) {
+    public HandlerResponse handle(HttpRequest request, WebHandler handler) {
         SingleArgHandler<?> singleArgHandler = (SingleArgHandler<?>) handler;
         Type argumentType = ((ParameterizedType) singleArgHandler.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         Class<?> argumentClass = (Class<?>) argumentType;

@@ -9,18 +9,18 @@ import http.HttpMethod;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import web.handler.WebHandler;
-import web.response.WebHandlerResponse;
-import web.posthandler.WebHandlerResponseHandler;
+import web.response.HandlerResponse;
+import web.renderer.HttpResponseRenderer;
 
 import java.util.*;
 
 public class Dispatcher {
     private final Map<HttpMethod, List<WebHandler>> handlerMapping;
     private final List<HandlerAdapter> adapterList;
-    private final List<WebHandlerResponseHandler> responseHandlerList;
+    private final List<HttpResponseRenderer> responseHandlerList;
     private final Logger logger = LoggerFactory.getLogger(Dispatcher.class);
 
-    public Dispatcher(List<WebHandler> handlerMapping, List<HandlerAdapter> adapterList, List<WebHandlerResponseHandler> responseHandlerList) {
+    public Dispatcher(List<WebHandler> handlerMapping, List<HandlerAdapter> adapterList, List<HttpResponseRenderer> responseHandlerList) {
         this.adapterList = adapterList;
         this.responseHandlerList = responseHandlerList;
         this.handlerMapping = new HashMap<>();
@@ -39,9 +39,9 @@ public class Dispatcher {
         HandlerAdapter adapter = adapterList.stream().filter(ha -> ha.support(handler))
                 .findFirst().orElseThrow(() -> new ErrorException("DispatcherError: No adapter matched"));
 
-        WebHandlerResponse response = adapter.handle(request, handler);
+        HandlerResponse response = adapter.handle(request, handler);
 
-        WebHandlerResponseHandler responseHandler = responseHandlerList.stream()
+        HttpResponseRenderer responseHandler = responseHandlerList.stream()
                 .filter(rh -> rh.supports(response))
                 .findFirst().orElseThrow(()-> new ErrorException("Post handler not exists"));
         return responseHandler.handle(response);

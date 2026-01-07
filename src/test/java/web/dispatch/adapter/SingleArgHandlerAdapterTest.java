@@ -6,8 +6,8 @@ import http.request.HttpRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import web.handler.WebHandler;
-import web.response.ViewResponse;
-import web.response.WebHandlerResponse;
+import web.response.StaticViewResponse;
+import web.response.HandlerResponse;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -23,9 +23,9 @@ class SingleArgHandlerAdapterTest {
 
         assertThat(adapter.support(handler)).isTrue();
 
-        WebHandlerResponse response = adapter.handle(request, handler);
+        HandlerResponse response = adapter.handle(request, handler);
         assertThat(response).isNotNull();
-        assertThat(response).isInstanceOf(ViewResponse.class);
+        assertThat(response).isInstanceOf(StaticViewResponse.class);
     }
 
 }

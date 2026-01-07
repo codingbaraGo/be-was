@@ -1,33 +1,29 @@
-package web.posthandler;
+package web.renderer;
 
 import config.VariableConfig;
 import exception.ErrorException;
-import http.HttpStatus;
 import http.response.HttpResponse;
-import web.response.WebHandlerResponse;
-import web.response.ViewResponse;
+import web.response.HandlerResponse;
+import web.response.StaticViewResponse;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Optional;
 
-public class ViewResponseHandler implements WebHandlerResponseHandler {
+public class StaticViewRenderer implements WebHandlerResponseRenderer {
     private final List<String> staticResourceRoots = VariableConfig.STATIC_RESOURCE_ROOTS;
     @Override
-    public boolean supports(WebHandlerResponse response) {
-        return response instanceof ViewResponse;
+    public boolean supports(HandlerResponse response) {
+        return response instanceof StaticViewResponse;
     }
 
     @Override
-    public HttpResponse handle(WebHandlerResponse handlerResponse) {
-        ViewResponse staticResponse = (ViewResponse) handlerResponse;
-        String path = staticResponse.getViewPath();
+    public HttpResponse handle(HandlerResponse handlerResponse) {
+        StaticViewResponse staticResponse = (StaticViewResponse) handlerResponse;
+        String path = staticResponse.getPath();
 
         File file = resolveStaticFile(path)
-                .orElseThrow(() -> new ErrorException("Static-View path Error"));
+                .orElseThrow(() -> new ErrorException("Static view path Error"));
 
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
             byte[] body = in.readAllBytes();
@@ -37,7 +33,7 @@ public class ViewResponseHandler implements WebHandlerResponseHandler {
             return httpResponse;
 
         } catch (IOException e) {
-            throw new ErrorException("Static-View Read IO-Error");
+            throw new ErrorException("Static view Read IO-Error");
         }
     }
 

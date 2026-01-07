@@ -1,7 +1,7 @@
 package web.handler;
 
 import http.HttpMethod;
-import web.response.WebHandlerResponse;
+import web.response.HandlerResponse;
 
 public abstract class SingleArgHandler<T> implements WebHandler{
     protected final HttpMethod method;
@@ -26,5 +26,5 @@ public abstract class SingleArgHandler<T> implements WebHandler{
         return this.method.equals(method) && this.path.equals(path);
     }
 
-    public abstract WebHandlerResponse handle(T arg);
+    public abstract HandlerResponse handle(T arg);
 }

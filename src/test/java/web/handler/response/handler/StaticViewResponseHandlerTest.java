@@ -2,23 +2,23 @@ package web.handler.response.handler;
 
 import http.HttpStatus;
 import org.junit.jupiter.api.*;
-import web.response.WebHandlerResponse;
-import web.posthandler.StaticContentResponseHandler;
-import web.response.StaticContentResponse;
+import web.response.HandlerResponse;
+import web.renderer.StaticViewRenderer;
+import web.response.StaticViewResponse;
 
 import java.io.IOException;
 import java.nio.file.*;
 
 import static org.assertj.core.api.Assertions.*;
 
-class StaticContentResponseHandlerTest {
+class StaticViewResponseHandlerTest {
 
-    private StaticContentResponseHandler handler;
+    private StaticViewRenderer handler;
     private Path resourceRoot;
 
     @BeforeEach
     void setUp() {
-        handler = new StaticContentResponseHandler();
+        handler = new StaticViewRenderer();
         resourceRoot = Paths.get(System.getProperty("user.dir"))
                 .resolve("src/main/java/resource");
     }
@@ -33,13 +33,13 @@ class StaticContentResponseHandlerTest {
 
     @Test
     void supports_true_when_response_is_StaticContentResponse() {
-        WebHandlerResponse response = StaticContentResponse.of("/index.html");
+        HandlerResponse response = StaticViewResponse.of("/index.html");
         assertThat(handler.supports(response)).isTrue();
     }
 
     @Test
     void supports_false_when_response_is_not_StaticContentResponse() {
-        WebHandlerResponse other = new WebHandlerResponse(HttpStatus.OK) {};
+        HandlerResponse other = new HandlerResponse(HttpStatus.OK) {};
         assertThat(handler.supports(other)).isFalse();
     }
 }

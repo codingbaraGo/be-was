@@ -18,9 +18,8 @@ import web.dispatch.argument.HttpRequestResolver;
 import web.dispatch.argument.QueryParamsResolver;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
-import web.posthandler.StaticContentResponseHandler;
-import web.posthandler.ViewResponseHandler;
-import web.posthandler.WebHandlerResponseHandler;
+import web.renderer.StaticViewRenderer;
+import web.renderer.WebHandlerResponseRenderer;
 
 import java.util.List;
 
@@ -61,20 +60,16 @@ public class AppConfig {
         return new RegisterHandlerImpl();
     }
 
-    private List<WebHandlerResponseHandler> webHandlerResponseHandlerList(){
+    private List<WebHandlerResponseRenderer> webHandlerResponseHandlerList(){
         return List.of(
-                staticContentResponseHandler(),
-                viewResponseHandler()
+                staticContentResponseHandler()
         );
     }
     private StaticContentHandler staticContentHandler(){
         return new StaticContentHandler();
     }
-    private ViewResponseHandler viewResponseHandler(){
-        return new ViewResponseHandler();
-    }
-    private StaticContentResponseHandler staticContentResponseHandler(){
-        return new StaticContentResponseHandler();
+    private StaticViewRenderer staticContentResponseHandler(){
+        return new StaticViewRenderer();
     }
 
 

@@ -4,7 +4,7 @@ import http.request.HttpRequest;
 import web.dispatch.HandlerAdapter;
 import web.handler.DefaultHandler;
 import web.handler.WebHandler;
-import web.response.WebHandlerResponse;
+import web.response.HandlerResponse;
 
 public class DefaultHandlerAdapter implements HandlerAdapter {
     @Override
@@ -13,7 +13,7 @@ public class DefaultHandlerAdapter implements HandlerAdapter {
     }
 
     @Override
-    public WebHandlerResponse handle(HttpRequest request, WebHandler handler) {
+    public HandlerResponse handle(HttpRequest request, WebHandler handler) {
         DefaultHandler defaultHandler = (DefaultHandler) handler;
         return defaultHandler.handle(request);
     }

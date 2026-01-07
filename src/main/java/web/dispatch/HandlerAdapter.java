@@ -2,9 +2,9 @@ package web.dispatch;
 
 import http.request.HttpRequest;
 import web.handler.WebHandler;
-import web.response.WebHandlerResponse;
+import web.response.HandlerResponse;
 
 public interface HandlerAdapter {
     boolean support(WebHandler handler);
-    WebHandlerResponse handle(HttpRequest request, WebHandler handler);
+    HandlerResponse handle(HttpRequest request, WebHandler handler);
 }

@@ -2,10 +2,10 @@ package web.response;
 
 import http.HttpStatus;
 
-public abstract class WebHandlerResponse {
+public abstract class HandlerResponse {
     protected final HttpStatus status;
 
-    protected WebHandlerResponse(HttpStatus status) {
+    protected HandlerResponse(HttpStatus status) {
         this.status = status;
     }
 

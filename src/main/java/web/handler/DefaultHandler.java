@@ -1,8 +1,8 @@
 package web.handler;
 
 import http.request.HttpRequest;
-import web.response.WebHandlerResponse;
+import web.response.HandlerResponse;
 
 public interface DefaultHandler extends WebHandler{
-    WebHandlerResponse handle(HttpRequest request);
+    HandlerResponse handle(HttpRequest request);
 }

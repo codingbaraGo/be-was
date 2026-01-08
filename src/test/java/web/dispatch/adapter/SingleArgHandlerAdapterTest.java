@@ -1,6 +1,6 @@
 package web.dispatch.adapter;
 
-import app.handler.RegisterHandlerImpl;
+import app.handler.RegisterWithGet;
 import config.AppConfig;
 import http.request.HttpRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ class SingleArgHandlerAdapterTest {
     @DisplayName("SingleArgumentHandlerAdapter<HttpRequest> 성공 테스트")
     void test(){
         HttpRequest request = HttpRequest.from("GET /user/create?userId=javajigi&password=password&name=%EB%B0%95%EC%9E%AC%EC%84%B1&email=javajigi%40slipp.net HTTP/1.1");
-        WebHandler handler = new RegisterHandlerImpl();
+        WebHandler handler = new RegisterWithGet();
 
         assertThat(adapter.support(handler)).isTrue();
 

@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class HttpBufferedStreamResponseConverter implements HttpResponseConverter {
+public class HttpResponseBufferedStreamConverter implements HttpResponseConverter {
 
     @Override
     public boolean support() {
@@ -19,6 +19,7 @@ public class HttpBufferedStreamResponseConverter implements HttpResponseConverte
         try {
             OutputStream raw = connection.getOutputStream();
             BufferedOutputStream out = new BufferedOutputStream(raw);
+
 
             byte[] body = response.getBody();
             if (body == null) body = new byte[0];

@@ -1,7 +1,7 @@
-package web.dispatch.argument;
+package web.dispatch.argument.resolver;
 
 import http.request.HttpRequest;
-import web.dispatch.ArgumentResolver;
+import web.dispatch.argument.ArgumentResolver;
 
 public class HttpRequestResolver extends ArgumentResolver<HttpRequest> {
 

@@ -1,6 +1,7 @@
 package config;
 
-import app.handler.RegisterHandlerImpl;
+import app.handler.RegisterWithGet;
+import app.handler.RegisterWithPost;
 import exception.ExceptionHandlerMapping;
 import exception.handler.ErrorExceptionHandler;
 import exception.handler.ServiceExceptionHandler;
@@ -57,11 +58,15 @@ public class AppConfig {
     private List<WebHandler> webHandlerList(){
         return List.of(
                 staticContentHandler(),
-                registerHandlerImpl()
+                registerWithGet(),
+                registerWithPost()
         );
     }
-    private RegisterHandlerImpl registerHandlerImpl(){
-        return new RegisterHandlerImpl();
+    private RegisterWithGet registerWithGet(){
+        return new RegisterWithGet();
+    }
+    private RegisterWithPost registerWithPost(){
+        return new RegisterWithPost();
     }
 
     private List<HttpResponseRenderer> webHandlerResponseHandlerList(){

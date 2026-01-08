@@ -1,6 +1,6 @@
 package web.dispatch;
 
-import app.handler.RegisterHandlerImpl;
+import app.handler.RegisterWithGet;
 import config.AppConfig;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ class HandlerAdapterTest {
     @Test
     @DisplayName("HandlerAdapter 선택 테스트: SingleArgHandler")
     void handler_adapter_list_test_single_arg(){
-        WebHandler handler = new RegisterHandlerImpl();
+        WebHandler handler = new RegisterWithGet();
         HandlerAdapter adapter = adapterList.stream().filter(ha -> ha.support(handler))
                 .findFirst().orElse(null);
         Assertions.assertThat(adapter).isInstanceOf(SingleArgHandlerAdapter.class);

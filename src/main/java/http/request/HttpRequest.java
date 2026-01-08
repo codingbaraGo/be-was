@@ -32,6 +32,9 @@ public class HttpRequest {
     }
     public void setHeader(String key, String value){
         headers.put(key.toLowerCase(), value);
+        if (key.equalsIgnoreCase("Content-Type")) {
+            this.contentType = value;
+        }
     }
 
     public List<String> getHeaders(){
@@ -91,6 +94,10 @@ public class HttpRequest {
         } catch (NullPointerException e){
             throw new ErrorException("Http method error");
         }
+    }
+
+    public void setBody(byte[] body){
+        this.body = body;
     }
 
 

@@ -1,4 +1,4 @@
-package web.dispatch;
+package web.dispatch.argument;
 
 import http.request.HttpRequest;
 

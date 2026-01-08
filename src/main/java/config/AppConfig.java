@@ -5,17 +5,18 @@ import exception.ExceptionHandlerMapping;
 import exception.handler.ErrorExceptionHandler;
 import exception.handler.ServiceExceptionHandler;
 import exception.handler.UnhandledErrorHandler;
-import http.request.HttpBufferedReaderRequestConverter;
+import http.request.BufferedReaderHttpRequestConverter;
 import http.request.HttpRequestConverter;
-import http.response.HttpBufferedStreamResponseConverter;
+import http.request.InputStreamHttpRequestConverter;
+import http.response.HttpResponseBufferedStreamConverter;
 import http.response.HttpResponseConverter;
-import web.dispatch.ArgumentResolver;
+import web.dispatch.argument.ArgumentResolver;
 import web.dispatch.Dispatcher;
 import web.dispatch.HandlerAdapter;
 import web.dispatch.adapter.DefaultHandlerAdapter;
 import web.dispatch.adapter.SingleArgHandlerAdapter;
-import web.dispatch.argument.HttpRequestResolver;
-import web.dispatch.argument.QueryParamsResolver;
+import web.dispatch.argument.resolver.HttpRequestResolver;
+import web.dispatch.argument.resolver.QueryParamsResolver;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
 import web.renderer.StaticViewRenderer;
@@ -25,19 +26,22 @@ import java.util.List;
 
 public class AppConfig {
     //Http
-    public HttpBufferedReaderRequestConverter httpBufferedReaderRequestConverter(){
-        return new HttpBufferedReaderRequestConverter();
-    }
-
-    public HttpBufferedStreamResponseConverter httpBufferedStreamResponseConverter(){
-        return new HttpBufferedStreamResponseConverter();
-    }
-
     public HttpRequestConverter httpRequestConverter(){
-        return httpBufferedReaderRequestConverter();
+        return inputStreamHttpRequestConverter();
     }
     public HttpResponseConverter httpResponseConverter(){
-        return httpBufferedStreamResponseConverter();
+        return httpResponseBufferedStreamConverter();
+    }
+
+    public BufferedReaderHttpRequestConverter httpBufferedReaderRequestConverter(){
+        return new BufferedReaderHttpRequestConverter();
+    }
+
+    public HttpResponseBufferedStreamConverter httpResponseBufferedStreamConverter(){
+        return new HttpResponseBufferedStreamConverter();
+    }
+    public InputStreamHttpRequestConverter inputStreamHttpRequestConverter(){
+        return new InputStreamHttpRequestConverter();
     }
 
 

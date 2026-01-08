@@ -1,6 +1,6 @@
 package web.http.response;
 
-import http.response.HttpBufferedStreamResponseConverter;
+import http.response.HttpResponseBufferedStreamConverter;
 import http.response.HttpResponse;
 import http.response.HttpResponseConverter;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class HttpResponseConverterTest {
-    private final HttpResponseConverter converter = new HttpBufferedStreamResponseConverter();
+    private final HttpResponseConverter converter = new HttpResponseBufferedStreamConverter();
 
     @Test
     void write_response_to_socket_test() throws Exception {

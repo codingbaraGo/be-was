@@ -1,6 +1,7 @@
 package web.http.request;
 
-import http.request.HttpBufferedReaderRequestConverter;
+import config.AppConfig;
+import http.request.BufferedReaderHttpRequestConverter;
 import http.request.HttpRequest;
 import http.request.HttpRequestConverter;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class HttpRequestConverterTest {
-    private final HttpRequestConverter converter = new HttpBufferedReaderRequestConverter();
+    private final AppConfig appConfig = new AppConfig();
+    private final HttpRequestConverter converter = appConfig.httpRequestConverter();
 
     @Test
     void parse_GET_request_test() throws Exception {
@@ -33,8 +35,7 @@ class HttpRequestConverterTest {
 
         assertThat(req.getMethod().name()).isEqualTo("GET");
         assertThat(req.getPath()).isEqualTo("/hello");
-        assertThat(req.getQueryValue("name").get()).isEqualTo("ta");
-        assertThat(req.getQueryValue("x").get()).isEqualTo("1");
+        assertThat(req.getQueryString()).isEqualTo("name=ta&x=1");
         assertThat(req.getHeader("Host")).isEqualTo("localhost");
         assertThat(req.getHeader("User-Agent")).isEqualTo("junit");
     }

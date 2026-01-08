@@ -32,52 +32,64 @@ public class InputStreamHttpRequestConverter implements HttpRequestConverter{
         }
     }
 
-    private void readHeaders(BufferedInputStream in, HttpRequest request) throws IOException {
-        while (true) {
-            String line = readLine(in);
-            if (line == null || line.isEmpty()) {
-                break;
-            }
+    private void readHeaders(BufferedInputStream in, HttpRequest request) {
+        try {
+            while (true) {
+                String line = readLine(in);
+                if (line == null || line.isEmpty()) {
+                    break;
+                }
 
-            int idx = line.indexOf(':');
-            if (idx < 0) {
-                throw new ErrorException("HttpRequestHeaderParseError: " + line);
-            }
+                int idx = line.indexOf(':');
+                if (idx < 0) {
+                    throw new ErrorException("HttpRequestHeaderParseError: " + line);
+                }
 
-            request.setHeader(
-                    line.substring(0, idx).trim(),
-                    line.substring(idx + 1).trim()
-            );
+                request.setHeader(
+                        line.substring(0, idx).trim(),
+                        line.substring(idx + 1).trim()
+                );
+            }
+        } catch (IOException e){
+            throw new ErrorException("HttpRequestHeaderParseError: IOException");
+        } catch (Exception e){
+            throw new ErrorException("HttpRequestHeaderParseError: Unexpected Error", e);
         }
     }
 
-    private void readBody(BufferedInputStream in, HttpRequest request) throws IOException {
-        String contentLength = request.getHeader("Content-Length");
-        if (contentLength == null) {
-            return; // body 없음
-        }
-
-        int length;
+    private void readBody(BufferedInputStream in, HttpRequest request) {
         try {
-            length = Integer.parseInt(contentLength.trim());
-        } catch (NumberFormatException e) {
-            throw new ErrorException("Invalid Content-Length: " + contentLength, e);
-        }
-
-        if (length <= 0) return;
-
-        byte[] body = new byte[length];
-        int offset = 0;
-
-        while (offset < length) {
-            int n = in.read(body, offset, length - offset);
-            if (n < 0) {
-                throw new ErrorException("Unexpected EOF while reading body");
+            String contentLength = request.getHeader("Content-Length");
+            if (contentLength == null) {
+                return; // body 없음
             }
-            offset += n;
-        }
 
-        request.setBody(body);
+            int length;
+            try {
+                length = Integer.parseInt(contentLength.trim());
+            } catch (NumberFormatException e) {
+                throw new ErrorException("Invalid Content-Length: " + contentLength, e);
+            }
+
+            if (length <= 0) return;
+
+            byte[] body = new byte[length];
+            int offset = 0;
+
+            while (offset < length) {
+                int n = in.read(body, offset, length - offset);
+                if (n < 0) {
+                    throw new ErrorException("Unexpected EOF while reading body");
+                }
+                offset += n;
+            }
+
+            request.setBody(body);
+        } catch (IOException e){
+            throw new ErrorException("HttpRequestBodyParseError: IOException");
+        } catch (Exception e){
+            throw new ErrorException("HttpRequestBodyParseError: Unexpected Error", e);
+        }
     }
 
     private String readLine(BufferedInputStream in) throws IOException {

@@ -2,7 +2,7 @@ package web.dispatch.adapter;
 
 import exception.ErrorException;
 import http.request.HttpRequest;
-import web.dispatch.ArgumentResolver;
+import web.dispatch.argument.ArgumentResolver;
 import web.dispatch.HandlerAdapter;
 import web.handler.SingleArgHandler;
 import web.handler.WebHandler;

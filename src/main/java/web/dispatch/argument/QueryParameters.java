@@ -22,7 +22,9 @@ public class QueryParameters {
     }
 
     public Optional<String> getQueryValue(String key){
-        return Optional.ofNullable(params.get(key).get(0));
+        if(params.containsKey(key))
+            return Optional.of(params.get(key).get(0));
+        return Optional.empty();
     }
 
     public List<String> getQueryValues(String key){

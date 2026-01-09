@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpResponse {
-    private final HttpStatus status;
     private final Map<String, List<String>> headers;
+    private HttpStatus status;
     private byte[] body;
 
     private HttpResponse (HttpStatus status){
@@ -26,6 +26,14 @@ public class HttpResponse {
 
     public static HttpResponse of (HttpStatus status){
         return new HttpResponse(status);
+    }
+
+    public static HttpResponse of (){
+        return new HttpResponse(HttpStatus.NONE);
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
     }
 
     public HttpStatus getStatus() {

@@ -1,6 +1,8 @@
 package http;
 
 public enum HttpStatus {
+    NONE(0),
+
     OK(200),
     CREATED(201),
     ACCEPTED(202),

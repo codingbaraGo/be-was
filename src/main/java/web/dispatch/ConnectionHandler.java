@@ -5,6 +5,7 @@ import http.response.HttpResponseConverter;
 import http.request.HttpRequestConverter;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
+import web.filter.FilterChain;
 
 import java.net.Socket;
 
@@ -14,6 +15,7 @@ public class ConnectionHandler implements Runnable{
     private final HttpResponseConverter responseConverter;
     private final ExceptionHandlerMapping exceptionHandlerMapping;
     private final Dispatcher dispatcher;
+    private FilterChain filterChain;
 
     public ConnectionHandler(Dispatcher dispatcher,
                              ExceptionHandlerMapping exceptionHandlerMapping,
@@ -30,22 +32,23 @@ public class ConnectionHandler implements Runnable{
     @Override
     public void run() {
 
+        HttpResponse response = HttpResponse.of();
         try {
 
             HttpRequest request = requestConverter.parseRequest(connection);
-            HttpResponse response = dispatcher.handle(request);
+            filterChain.runFilterChain(request,response);
             responseConverter.sendResponse(response, connection);
 
-        } catch (Exception e){
+        } catch (Throwable t){
             /**
              * TODO:
              * ExceptionHandler 또한 HttpResponse를 반환하게 하고
              * finally에 `responseConverter.sendResponse(response, connection);` 를 넣어
              * socket에 write를 하는 포인트를 단일 포인트로 관리
              */
-            exceptionHandlerMapping.handle(e, connection);
+            exceptionHandlerMapping.handle(t, connection);
         } finally {
-            try { connection.close(); } catch (Exception ignore) {}
+            try { connection.close(); } catch (Throwable ignore) {}
         }
     }
 }

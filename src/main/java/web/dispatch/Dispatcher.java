@@ -28,7 +28,7 @@ public class Dispatcher {
         handlerMapping.forEach(hm -> this.handlerMapping.get(hm.getMethod()).add(hm));
     }
 
-    public HttpResponse handle(HttpRequest request){
+    public HttpResponse handle(HttpRequest request, HttpResponse response){
         logger.debug("{}: {} - {} from {}",
                 request.getMethod(), request.getPath(), request.getQueryString(), request.getRequestAddress());
 
@@ -41,11 +41,11 @@ public class Dispatcher {
         HandlerAdapter adapter = adapterList.stream().filter(ha -> ha.support(handler))
                 .findFirst().orElseThrow(() -> new ErrorException("DispatcherError: No adapter matched"));
 
-        HandlerResponse response = adapter.handle(request, handler);
+        HandlerResponse handlerResponse = adapter.handle(request, handler);
 
         HttpResponseRenderer responseHandler = responseHandlerList.stream()
-                .filter(rh -> rh.supports(response))
-                .findFirst().orElseThrow(()-> new ErrorException("Post handler not exists"));
-        return responseHandler.handle(response);
+                .filter(rh -> rh.supports(handlerResponse))
+                .findFirst().orElseThrow(()-> new ErrorException("Renderer not exists"));
+        return responseHandler.handle(response, handlerResponse);
     }
 }

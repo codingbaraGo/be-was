@@ -7,10 +7,7 @@ import http.HttpMethod;
 
 import java.net.InetAddress;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class HttpRequest {
     private final HttpMethod method;
@@ -20,6 +17,7 @@ public class HttpRequest {
     private final URI uri;
     private String contentType;
     private byte[] body;
+    private UUID rid;
 
     private InetAddress requestAddress;
 
@@ -101,5 +99,14 @@ public class HttpRequest {
 
     public void setBody(byte[] body){
         this.body = body;
+    }
+
+    public String generateRid(){
+        this.rid = UUID.randomUUID();
+        return this.rid.toString();
+    }
+
+    public UUID getRid() {
+        return rid;
     }
 }

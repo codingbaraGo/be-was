@@ -12,6 +12,7 @@ public class Cookies {
         return new Cookies(new HashMap<>());
     }
 
+    //TODO: XSS 방어 코드 추가
     public static Cookies parse(String rawHeader) {
         if (rawHeader == null || rawHeader.isBlank()) return empty();
 
@@ -26,7 +27,7 @@ public class Cookies {
             String value = kv.length == 2 ? kv[1].trim() : "";
 
             if (!name.isEmpty()) {
-                map.put(name, value); // 동일 name은 마지막 값으로 덮어씀(브라우저/서버 실무 관행)
+                map.put(name, value);
             }
         }
         return new Cookies(map);

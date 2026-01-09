@@ -1,7 +1,6 @@
 package web.response;
 
 import http.HttpStatus;
-import http.response.CookieBuilder;
 import http.response.ResponseCookie;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public abstract class HandlerResponse {
         return status;
     }
 
-    public void setCookie(CookieBuilder cookie){
+    public void setCookie(ResponseCookie cookie){
         this.cookies.add(cookie);
     }
 

@@ -30,6 +30,7 @@ public class HttpRequest {
         this.uri = URI.create(target);
         this.httpVersion = httpVersion;
         this.headers = new HashMap<>();
+        this.cookies = Cookies.empty();
     }
 
     public static HttpRequest from(String requestLine){

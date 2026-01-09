@@ -30,6 +30,7 @@ public class StaticViewRenderer implements HttpResponseRenderer {
 
             HttpResponse httpResponse = HttpResponse.of(handlerResponse.getStatus());
             httpResponse.setBody(file, body);
+            handlerResponse.getCookies().forEach(cookie->httpResponse.addHeader("Set-Cookie", cookie));
             return httpResponse;
 
         } catch (IOException e) {

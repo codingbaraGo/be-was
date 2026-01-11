@@ -13,7 +13,7 @@ public class AccessLogFilter implements ServletFilter {
     public void runFilter(HttpRequest request, HttpResponse response, FilterChainContainer.FilterChainEngine chain) {
         chain.doFilter();
         log.info("rid-{}: {} {} from {}",
-                request.generateRid(),
+                request.getOrGenerateRid(),
                 request.getMethod(),
                 request.getPath(),
                 request.getRequestAddress());

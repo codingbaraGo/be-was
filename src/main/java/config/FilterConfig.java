@@ -32,7 +32,7 @@ public class FilterConfig extends SingletonContainer {
     }
 
     private List<ServletFilter> commonBackFilter(){
-        return getOrCreate("commonFrontFilter",
+        return getOrCreate("commonBackFilter",
                 () -> List.of());
     }
 

@@ -101,8 +101,9 @@ public class HttpRequest {
         this.body = body;
     }
 
-    public String generateRid(){
-        this.rid = UUID.randomUUID();
+    public String getOrGenerateRid(){
+        if(this.rid == null)
+            this.rid = UUID.randomUUID();
         return this.rid.toString();
     }
 

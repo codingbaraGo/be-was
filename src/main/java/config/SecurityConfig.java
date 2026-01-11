@@ -13,12 +13,10 @@ public class SecurityConfig extends SingletonContainer {
     }
 
     public void setPaths(){
-        if(callCount>0) throw new ErrorException("SecurityConfig::setPaths: Duplicated call");
         appConfig.filterChainContainer()
                 .addPath(FilterType.AUTHENTICATED, "/mypage/**")
                 .addPath(FilterType.ALL, "/user/**")
                 .addPath(FilterType.PUBLIC, "/**");
-        callCount++;
     }
 
 

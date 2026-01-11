@@ -1,43 +1,62 @@
 package web.filter;
 
+import config.FilterType;
+import exception.ErrorCode;
+import exception.ErrorException;
+import exception.ServiceException;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import web.dispatch.Dispatcher;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class FilterChain {
-    private final List<Pair> filterChainList;
+public class FilterChainContainer {
+    private final List<FilterTypePaths> registeredPaths;
+    private final Map<FilterType, List<ServletFilter>> filterChainMap;
     private final Dispatcher dispatcher;
 
-    public FilterChain(Dispatcher dispatcher) {
-        this.filterChainList = new ArrayList<>();
+    public FilterChainContainer(Dispatcher dispatcher) {
+        this.registeredPaths = new ArrayList<>();
+        this.filterChainMap = new HashMap<>();
         this.dispatcher = dispatcher;
-    }
-
-    public FilterChain addChain(String path, List<ServletFilter> filterList) {
-        filterChainList.add(Pair.of(path, filterList));
-        return this;
     }
 
     public void runFilterChain(HttpRequest request, HttpResponse response) {
         String requestedPath = request.getPath();
 
-        Pair matched = findMatchedChain(requestedPath);
-        List<ServletFilter> filters = (matched == null) ? List.of() : matched.filterList;
+        FilterTypePaths matched = findMatchedChain(requestedPath).orElseThrow(()-> new ServiceException(ErrorCode.FORBIDDEN));
+        List<ServletFilter> filters = filterChainMap.get(matched.type);
 
-        FilterEngine engine = new FilterEngine(dispatcher, request, response, filters);
+        FilterChainEngine engine = new FilterChainEngine(dispatcher, request, response, filters);
         engine.doFilter();
     }
 
-    private Pair findMatchedChain(String requestedPath) {
-        for (Pair pair : filterChainList) {
-            if (isMatched(requestedPath, pair.path)) {
-                return pair;
+    public FilterChainContainer addFilterList(FilterType type, List<ServletFilter> filterList) {
+        if(filterChainMap.containsKey(type))
+            throw new ErrorException("FilterChain Construction: Duplicate filter list per type");
+        filterChainMap.put(type, filterList);
+        return this;
+    }
+
+    public FilterChainContainer addPaths(FilterType type, List<String> paths) {
+        registeredPaths.add(FilterTypePaths.of(type, paths));
+        return this;
+    }
+
+    public FilterChainContainer addPath(FilterType type, String path) {
+        registeredPaths.add(FilterTypePaths.of(type, List.of(path)));
+        return this;
+    }
+
+    private Optional<FilterTypePaths> findMatchedChain(String requestedPath) {
+        for (FilterTypePaths filterTypePaths : registeredPaths) {
+            for (String path : filterTypePaths.paths) {
+                if (isMatched(requestedPath, path)) {
+                    return Optional.of(filterTypePaths);
+                }
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     private boolean isMatched(String requestedPath, String filterPath) {
@@ -72,28 +91,28 @@ public class FilterChain {
         return false;
     }
 
-    private static class Pair {
-        private final String path;
-        private final List<ServletFilter> filterList;
+    private static class FilterTypePaths {
+        private final FilterType type;
+        private final List<String> paths;
 
-        private Pair(String path, List<ServletFilter> filterList) {
-            this.path = path;
-            this.filterList = filterList;
+        public FilterTypePaths(FilterType type, List<String> paths) {
+            this.type = type;
+            this.paths = paths;
         }
 
-        public static Pair of(String path, List<ServletFilter> filterList) {
-            return new Pair(path, filterList);
+        public static FilterTypePaths of(FilterType type, List<String> paths) {
+            return new FilterTypePaths(type, paths);
         }
     }
 
-    public static class FilterEngine {
+    public static class FilterChainEngine {
         private final Dispatcher dispatcher;
         private final HttpRequest request;
         private final HttpResponse response;
         private final List<ServletFilter> filterList;
         private int position = 0;
 
-        public FilterEngine(Dispatcher dispatcher, HttpRequest request, HttpResponse response, List<ServletFilter> filterList) {
+        public FilterChainEngine(Dispatcher dispatcher, HttpRequest request, HttpResponse response, List<ServletFilter> filterList) {
             this.dispatcher = dispatcher;
             this.request = request;
             this.response = response;

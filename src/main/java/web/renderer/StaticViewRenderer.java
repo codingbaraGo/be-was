@@ -2,6 +2,7 @@ package web.renderer;
 
 import config.VariableConfig;
 import exception.ErrorException;
+import http.HttpStatus;
 import http.response.HttpResponse;
 import web.response.HandlerResponse;
 import web.response.StaticViewResponse;
@@ -18,7 +19,7 @@ public class StaticViewRenderer implements HttpResponseRenderer {
     }
 
     @Override
-    public HttpResponse handle(HandlerResponse handlerResponse) {
+    public HttpResponse handle(HttpResponse httpResponse, HandlerResponse handlerResponse) {
         StaticViewResponse staticResponse = (StaticViewResponse) handlerResponse;
         String path = staticResponse.getPath();
 
@@ -28,7 +29,7 @@ public class StaticViewRenderer implements HttpResponseRenderer {
         try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
             byte[] body = in.readAllBytes();
 
-            HttpResponse httpResponse = HttpResponse.of(handlerResponse.getStatus());
+            httpResponse.setStatus(handlerResponse.getStatus());
             httpResponse.setBody(file, body);
             handlerResponse.getCookies().forEach(cookie->httpResponse.addHeader("Set-Cookie", cookie));
             return httpResponse;

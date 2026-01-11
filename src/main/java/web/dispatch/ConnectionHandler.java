@@ -5,24 +5,23 @@ import http.response.HttpResponseConverter;
 import http.request.HttpRequestConverter;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
-import web.filter.FilterChain;
+import web.filter.FilterChainContainer;
 
 import java.net.Socket;
 
 public class ConnectionHandler implements Runnable{
     private final Socket connection;
+    private final FilterChainContainer filterChainContainer;
     private final HttpRequestConverter requestConverter;
     private final HttpResponseConverter responseConverter;
     private final ExceptionHandlerMapping exceptionHandlerMapping;
-    private final Dispatcher dispatcher;
-    private FilterChain filterChain;
 
-    public ConnectionHandler(Dispatcher dispatcher,
+    public ConnectionHandler(FilterChainContainer filterChainContainer,
                              ExceptionHandlerMapping exceptionHandlerMapping,
                              HttpResponseConverter responseConverter,
                              HttpRequestConverter requestConverter,
                              Socket connection) {
-        this.dispatcher = dispatcher;
+        this.filterChainContainer = filterChainContainer;
         this.exceptionHandlerMapping = exceptionHandlerMapping;
         this.responseConverter = responseConverter;
         this.requestConverter = requestConverter;
@@ -36,7 +35,7 @@ public class ConnectionHandler implements Runnable{
         try {
 
             HttpRequest request = requestConverter.parseRequest(connection);
-            filterChain.runFilterChain(request,response);
+            filterChainContainer.runFilterChain(request,response);
             responseConverter.sendResponse(response, connection);
 
         } catch (Throwable t){

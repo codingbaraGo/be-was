@@ -18,6 +18,9 @@ import web.dispatch.adapter.SingleArgHandlerAdapter;
 import web.dispatch.argument.ArgumentResolver;
 import web.dispatch.argument.resolver.HttpRequestResolver;
 import web.dispatch.argument.resolver.QueryParamsResolver;
+import web.filter.AccessLogFilter;
+import web.filter.FilterChainContainer;
+import web.filter.RestrictedFilter;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
 import web.renderer.HttpResponseRenderer;
@@ -208,5 +211,21 @@ public class AppConfig extends SingletonContainer {
                 "errorExceptionHandler",
                 ErrorExceptionHandler::new
         );
+    }
+
+    /**
+     * ===== Filter =====
+     */
+    public FilterChainContainer filterChainContainer(){
+        return getOrCreate("filterChainContainer",
+                () -> new FilterChainContainer(dispatcher()));
+    }
+
+    public AccessLogFilter accessLogFilter(){
+        return getOrCreate("accessLogFilter", AccessLogFilter::new);
+    }
+
+    public RestrictedFilter restrictedFilter(){
+        return getOrCreate("restrictedFilter", RestrictedFilter::new);
     }
 }

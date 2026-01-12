@@ -9,6 +9,7 @@ public class UnanimousAuthorizationFilter implements ServletFilter {
     private final UserRole USER_ROLE = UserRole.UNANIMOUS;
     @Override
     public void runFilter(HttpRequest request, HttpResponse response, FilterChainContainer.FilterChainEngine chain) {
+        if(request.getAuthenticationInfo()==null) return;
         if(request.getAuthenticationInfo().getRole().equals(USER_ROLE)) {
             chain.doFilter();
         } else {

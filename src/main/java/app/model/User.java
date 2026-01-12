@@ -1,28 +1,31 @@
 package app.model;
 
 public class User {
-    private String userId;
+    private Long userId;
     private String password;
-    private String name;
+    private String nickname;
     private String email;
 
-    public User(String userId, String password, String name, String email) {
-        this.userId = userId;
+    public User(String password, String nickname, String email) {
         this.password = password;
-        this.name = name;
+        this.nickname = nickname;
         this.email = email;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
+    }
+
+    public void setUserId(Long userId){
+        this.userId = userId;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getEmail() {
@@ -31,6 +34,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [userId=" + userId + ", password=" + password + ", name=" + name + ", email=" + email + "]";
+        return "User [userId=" + userId + ", password=" + password + ", name=" + nickname + ", email=" + email + "]";
     }
 }

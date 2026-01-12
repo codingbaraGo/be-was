@@ -22,12 +22,11 @@ public class RegisterWithGet extends SingleArgHandler<QueryParameters> {
 
     @Override
     public HandlerResponse handle(QueryParameters params) {
-        String userId = params.getQueryValue("userId").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "userId required"));
-        String password = params.getQueryValue("password").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "password required"));
-        String name = params.getQueryValue("name").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "name required"));
         String email = params.getQueryValue("email").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "email required"));
-        Database.addUser(new User(userId, password, name, email));
-        log.info("Registered - userId:{}, password:{}, name:{}, email:{}", userId, password, name, email);
+        String password = params.getQueryValue("password").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "password required"));
+        String nickname = params.getQueryValue("nickname").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "nickname required"));
+        Database.addUser(new User(password, nickname, email));
+        log.info("Registered - password:{}, nickname:{}, email:{}", password, nickname, email);
         return StaticViewResponse.of("/login");
     }
 }

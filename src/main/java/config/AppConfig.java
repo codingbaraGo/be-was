@@ -1,5 +1,7 @@
 package config;
 
+import app.handler.LoginWithPost;
+import app.handler.LogoutWithPost;
 import app.handler.RegisterWithGet;
 import app.handler.RegisterWithPost;
 import exception.ExceptionHandlerMapping;
@@ -24,6 +26,7 @@ import web.filter.RestrictedFilter;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
 import web.renderer.HttpResponseRenderer;
+import web.renderer.RedirectRenderer;
 import web.renderer.StaticViewRenderer;
 
 import java.util.List;
@@ -71,7 +74,7 @@ public class AppConfig extends SingletonContainer {
                 () -> new Dispatcher(
                         webHandlerList(),
                         handlerAdapterList(),
-                        webHandlerResponseHandlerList()
+                        httpResponseRendererList()
                 )
         );
     }
@@ -82,8 +85,17 @@ public class AppConfig extends SingletonContainer {
                 () -> List.of(
                         staticContentHandler(),
                         registerWithGet(),
-                        registerWithPost()
+                        registerWithPost(),
+                        loginWithPost(),
+                        logoutWithPost()
                 )
+        );
+    }
+
+    public StaticContentHandler staticContentHandler() {
+        return getOrCreate(
+                "staticContentHandler",
+                StaticContentHandler::new
         );
     }
 
@@ -101,28 +113,38 @@ public class AppConfig extends SingletonContainer {
         );
     }
 
-    public List<HttpResponseRenderer> webHandlerResponseHandlerList() {
+    public LoginWithPost loginWithPost() {
+        return getOrCreate("loginWithPost",
+                () -> new LoginWithPost(sessionStorage()));
+    }
+
+    public LogoutWithPost logoutWithPost() {
+        return getOrCreate("logoutWithPost",
+                () -> new LogoutWithPost(sessionStorage()));
+    }
+
+    // ===== Renderer =====
+    public List<HttpResponseRenderer> httpResponseRendererList() {
         return getOrCreate(
-                "webHandlerResponseHandlerList",
+                "httpResponseRendererList",
                 () -> List.of(
-                        staticViewResponseHandler()
+                        staticViewRenderer(),
+                        redirectRenderer()
                 )
         );
     }
 
-    public StaticContentHandler staticContentHandler() {
+    public StaticViewRenderer staticViewRenderer() {
         return getOrCreate(
-                "staticContentHandler",
-                StaticContentHandler::new
-        );
-    }
-
-    public StaticViewRenderer staticViewResponseHandler() {
-        return getOrCreate(
-                "staticViewResponseHandler",
+                "staticViewRenderer",
                 StaticViewRenderer::new
         );
     }
+
+    public RedirectRenderer redirectRenderer() {
+        return getOrCreate("redirectRenderer", RedirectRenderer::new);
+    }
+
 
     // ===== Adapter =====
     public List<HandlerAdapter> handlerAdapterList() {

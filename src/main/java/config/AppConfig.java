@@ -1,7 +1,6 @@
 package config;
 
 import app.handler.LoginWithPost;
-import app.handler.LogoutWithPost;
 import app.handler.RegisterWithGet;
 import app.handler.RegisterWithPost;
 import exception.ExceptionHandlerMapping;
@@ -85,8 +84,7 @@ public class AppConfig extends SingletonContainer {
                         staticContentHandler(),
                         registerWithGet(),
                         registerWithPost(),
-                        loginWithPost(),
-                        logoutWithPost()
+                        loginWithPost()
                 )
         );
     }
@@ -115,11 +113,6 @@ public class AppConfig extends SingletonContainer {
     public LoginWithPost loginWithPost() {
         return getOrCreate("loginWithPost",
                 () -> new LoginWithPost(sessionStorage()));
-    }
-
-    public LogoutWithPost logoutWithPost() {
-        return getOrCreate("logoutWithPost",
-                () -> new LogoutWithPost(sessionStorage()));
     }
 
     // ===== Renderer =====

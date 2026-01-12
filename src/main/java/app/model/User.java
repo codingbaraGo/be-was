@@ -5,11 +5,13 @@ public class User {
     private String password;
     private String nickname;
     private String email;
+    private String userRole;
 
-    public User(String password, String nickname, String email) {
+    public User(String password, String nickname, String email, String userRole) {
         this.password = password;
         this.nickname = nickname;
         this.email = email;
+        this.userRole = userRole;
     }
 
     public Long getUserId() {
@@ -30,6 +32,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getUserRole() {
+        return userRole;
     }
 
     @Override

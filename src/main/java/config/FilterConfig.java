@@ -21,7 +21,8 @@ public class FilterConfig extends SingletonContainer {
                 .addFilterList(FilterType.ALL, getFilterListByAuthorityType(FilterType.ALL))
                 .addFilterList(FilterType.PUBLIC, getFilterListByAuthorityType(FilterType.PUBLIC))
                 .addFilterList(FilterType.AUTHENTICATED, getFilterListByAuthorityType(FilterType.AUTHENTICATED))
-                .addFilterList(FilterType.RESTRICT, getFilterListByAuthorityType(FilterType.RESTRICT));
+                .addFilterList(FilterType.RESTRICT, getFilterListByAuthorityType(FilterType.RESTRICT))
+                .addFilterList(FilterType.LOG_IN, getFilterListByAuthorityType(FilterType.LOG_IN));
     }
 
     private List<ServletFilter> commonFrontFilter(){
@@ -47,10 +48,16 @@ public class FilterConfig extends SingletonContainer {
     private List<ServletFilter> authorizedFilterList(FilterType type) {
         return switch (type) {
             case ALL -> List.of();
-            case PUBLIC -> List.of();
-            case AUTHENTICATED -> List.of();
-            case RESTRICT -> List.of(appConfig.restrictedFilter());
-            case LOG_IN -> List.of();
+            case PUBLIC -> List.of(
+                    appConfig.authenticationFilter());
+            case AUTHENTICATED -> List.of(
+                    appConfig.authenticationFilter(),
+                    appConfig.memberAuthorizationFilter());
+            case RESTRICT -> List.of(
+                    appConfig.restrictedFilter());
+            case LOG_IN -> List.of(
+                    appConfig.authenticationFilter(),
+                    appConfig.unanimousAuthorizationFilter());
         };
     }
 }

@@ -15,6 +15,7 @@ public class SecurityConfig extends SingletonContainer {
     public void setPaths(){
         appConfig.filterChainContainer()
                 .addPath(FilterType.AUTHENTICATED, "/mypage/**")
+                .addPath(FilterType.LOG_IN, "/user/login")
                 .addPath(FilterType.ALL, "/user/**")
                 .addPath(FilterType.PUBLIC, "/**");
     }

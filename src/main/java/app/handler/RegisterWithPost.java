@@ -8,6 +8,7 @@ import http.HttpMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import web.dispatch.argument.QueryParameters;
+import web.filter.authentication.UserRole;
 import web.handler.SingleArgHandler;
 import web.response.HandlerResponse;
 import web.response.StaticViewResponse;
@@ -21,12 +22,11 @@ public class RegisterWithPost extends SingleArgHandler<QueryParameters> {
 
     @Override
     public HandlerResponse handle(QueryParameters params) {
-        String userId = params.getQueryValue("userId").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "userId required"));
-        String password = params.getQueryValue("password").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "password required"));
-        String name = params.getQueryValue("name").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "name required"));
         String email = params.getQueryValue("email").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "email required"));
-        Database.addUser(new User(userId, password, name, email));
-        log.info("Registered - userId:{}, password:{}, name:{}, email:{}", userId, password, name, email);
+        String nickname = params.getQueryValue("nickname").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "nickname required"));
+        String password = params.getQueryValue("password").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "password required"));
+        Database.addUser(new User(password, nickname, email, UserRole.MEMBER.toString()));
+        log.info("Registered - password:{}, nickname:{}, email:{}", password, nickname, email);
         return StaticViewResponse.of("/login");
     }
 }

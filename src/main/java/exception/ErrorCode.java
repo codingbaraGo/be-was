@@ -7,6 +7,8 @@ public enum ErrorCode {
     /* Service Exception */
     MISSING_REGISTER_TOKEN(
             HttpStatus.BAD_REQUEST, "400_MISSING_REGISTER_TOKEN", "회원가입에 필요한 토큰이 누락되었습니다."),
+    LOGIN_FAILED(
+            HttpStatus.BAD_REQUEST, "400_LOGIN_FAILED", "아이디 혹은 비밀번호가 잘못되었습니다."),
 
     /* Internal Error */
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "500_INTERNAL", "서버 내부 오류가 발생했습니다."),

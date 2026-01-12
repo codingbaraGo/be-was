@@ -20,14 +20,13 @@ import web.dispatch.adapter.SingleArgHandlerAdapter;
 import web.dispatch.argument.ArgumentResolver;
 import web.dispatch.argument.resolver.HttpRequestResolver;
 import web.dispatch.argument.resolver.QueryParamsResolver;
-import web.filter.AccessLogFilter;
-import web.filter.FilterChainContainer;
-import web.filter.RestrictedFilter;
+import web.filter.*;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
 import web.renderer.HttpResponseRenderer;
 import web.renderer.RedirectRenderer;
 import web.renderer.StaticViewRenderer;
+import web.session.SessionStorage;
 
 import java.util.List;
 
@@ -249,5 +248,25 @@ public class AppConfig extends SingletonContainer {
 
     public RestrictedFilter restrictedFilter(){
         return getOrCreate("restrictedFilter", RestrictedFilter::new);
+    }
+
+    public AuthenticationFilter authenticationFilter() {
+        return getOrCreate("authenticationFilter",
+                () -> new AuthenticationFilter(sessionStorage()));
+    }
+
+    public MemberAuthorizationFilter memberAuthorizationFilter(){
+        return getOrCreate("memberAuthorizationFilter",
+                MemberAuthorizationFilter::new);
+    }
+
+    public UnanimousAuthorizationFilter unanimousAuthorizationFilter(){
+        return getOrCreate("unanimousAuthorizationFilter",
+                UnanimousAuthorizationFilter::new);
+    }
+
+    public SessionStorage sessionStorage() {
+        return getOrCreate("sessionStorage",
+                SessionStorage::new);
     }
 }

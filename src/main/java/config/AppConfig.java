@@ -1,5 +1,6 @@
 package config;
 
+import app.handler.LoginWithPost;
 import app.handler.RegisterWithGet;
 import app.handler.RegisterWithPost;
 import exception.ExceptionHandlerMapping;
@@ -18,13 +19,13 @@ import web.dispatch.adapter.SingleArgHandlerAdapter;
 import web.dispatch.argument.ArgumentResolver;
 import web.dispatch.argument.resolver.HttpRequestResolver;
 import web.dispatch.argument.resolver.QueryParamsResolver;
-import web.filter.AccessLogFilter;
-import web.filter.FilterChainContainer;
-import web.filter.RestrictedFilter;
+import web.filter.*;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
 import web.renderer.HttpResponseRenderer;
+import web.renderer.RedirectRenderer;
 import web.renderer.StaticViewRenderer;
+import web.session.SessionStorage;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class AppConfig extends SingletonContainer {
                 () -> new Dispatcher(
                         webHandlerList(),
                         handlerAdapterList(),
-                        webHandlerResponseHandlerList()
+                        httpResponseRendererList()
                 )
         );
     }
@@ -82,8 +83,16 @@ public class AppConfig extends SingletonContainer {
                 () -> List.of(
                         staticContentHandler(),
                         registerWithGet(),
-                        registerWithPost()
+                        registerWithPost(),
+                        loginWithPost()
                 )
+        );
+    }
+
+    public StaticContentHandler staticContentHandler() {
+        return getOrCreate(
+                "staticContentHandler",
+                StaticContentHandler::new
         );
     }
 
@@ -101,28 +110,33 @@ public class AppConfig extends SingletonContainer {
         );
     }
 
-    public List<HttpResponseRenderer> webHandlerResponseHandlerList() {
+    public LoginWithPost loginWithPost() {
+        return getOrCreate("loginWithPost",
+                () -> new LoginWithPost(sessionStorage()));
+    }
+
+    // ===== Renderer =====
+    public List<HttpResponseRenderer> httpResponseRendererList() {
         return getOrCreate(
-                "webHandlerResponseHandlerList",
+                "httpResponseRendererList",
                 () -> List.of(
-                        staticViewResponseHandler()
+                        staticViewRenderer(),
+                        redirectRenderer()
                 )
         );
     }
 
-    public StaticContentHandler staticContentHandler() {
+    public StaticViewRenderer staticViewRenderer() {
         return getOrCreate(
-                "staticContentHandler",
-                StaticContentHandler::new
-        );
-    }
-
-    public StaticViewRenderer staticViewResponseHandler() {
-        return getOrCreate(
-                "staticViewResponseHandler",
+                "staticViewRenderer",
                 StaticViewRenderer::new
         );
     }
+
+    public RedirectRenderer redirectRenderer() {
+        return getOrCreate("redirectRenderer", RedirectRenderer::new);
+    }
+
 
     // ===== Adapter =====
     public List<HandlerAdapter> handlerAdapterList() {
@@ -227,5 +241,25 @@ public class AppConfig extends SingletonContainer {
 
     public RestrictedFilter restrictedFilter(){
         return getOrCreate("restrictedFilter", RestrictedFilter::new);
+    }
+
+    public AuthenticationFilter authenticationFilter() {
+        return getOrCreate("authenticationFilter",
+                () -> new AuthenticationFilter(sessionStorage()));
+    }
+
+    public MemberAuthorizationFilter memberAuthorizationFilter(){
+        return getOrCreate("memberAuthorizationFilter",
+                MemberAuthorizationFilter::new);
+    }
+
+    public UnanimousAuthorizationFilter unanimousAuthorizationFilter(){
+        return getOrCreate("unanimousAuthorizationFilter",
+                UnanimousAuthorizationFilter::new);
+    }
+
+    public SessionStorage sessionStorage() {
+        return getOrCreate("sessionStorage",
+                SessionStorage::new);
     }
 }

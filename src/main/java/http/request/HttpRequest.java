@@ -4,6 +4,7 @@ import exception.ErrorCode;
 import exception.ErrorException;
 import exception.ServiceException;
 import http.HttpMethod;
+import web.filter.authentication.AuthenticationInfo;
 
 import java.net.InetAddress;
 import java.net.URI;
@@ -18,6 +19,7 @@ public class HttpRequest {
     private String contentType;
     private byte[] body;
     private UUID rid;
+    private AuthenticationInfo authenticationInfo;
 
     private InetAddress requestAddress;
 
@@ -109,5 +111,13 @@ public class HttpRequest {
 
     public UUID getRid() {
         return rid;
+    }
+
+    public AuthenticationInfo getAuthenticationInfo() {
+        return authenticationInfo;
+    }
+
+    public void setAuthenticationInfo(AuthenticationInfo authenticationInfo) {
+        this.authenticationInfo = authenticationInfo;
     }
 }

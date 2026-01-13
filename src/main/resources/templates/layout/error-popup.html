@@ -97,9 +97,10 @@
             credentials: "same-origin",
           });
 
-          if (res.ok) {
-            // 성공 처리: 서버가 리다이렉트를 주는 구조면 여기서 location 설정
-            // 우선 가장 단순하게는 reload 혹은 홈 이동
+          if (res.redirected) {
+            window.location.href = res.url;
+            return;
+          } else if (res.ok) {
             window.location.href = "/";
             return;
           }

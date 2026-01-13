@@ -1,6 +1,5 @@
 package web.filter;
 
-import http.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import web.filter.authentication.UserRole;
@@ -13,9 +12,7 @@ public class MemberAuthorizationFilter implements ServletFilter {
         if(request.getAuthenticationInfo().getRole().equals(UserRole.MEMBER)){
             chain.doFilter();
         } else {
-            response.setStatus(HttpStatus.FOUND);
-            response.setHeader("Location", "/login");
-            response.setHeader("Content-Length", "0");
+            response.redirectTo("/login");
         }
     }
 }

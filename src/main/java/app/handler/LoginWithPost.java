@@ -42,14 +42,14 @@ public class LoginWithPost extends SingleArgHandler<QueryParameters> {
                 user.getUserRole(),
                 user.getNickname());
 
-        RedirectResponse res = RedirectResponse.to("/");
-        res.setCookie(
+        RedirectResponse response = RedirectResponse.to("/");
+        response.setCookie(
                 CookieBuilder.of("SID", session.getId())
                         .path("/")
                         .httpOnly()
                         .sameSite(CookieBuilder.SameSite.LAX)
                         .maxAge(VariableConfig.ABSOLUTE_MS)
         );
-        return res;
+        return response;
     }
 }

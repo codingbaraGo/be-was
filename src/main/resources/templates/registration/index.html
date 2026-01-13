@@ -3,27 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="../reset.css" rel="stylesheet" />
-    <link href="../global.css" rel="stylesheet" />
+    <link href="../../static/reset.css" rel="stylesheet" />
+    <link href="../../static/global.css" rel="stylesheet" />
   </head>
   <body>
     <div class="container">
-      <header class="header">
-        <a href="/"><img src="../img/signiture.svg" /></a>
-        <ul class="header__menu">
-          <li class="header__menu__item">
-            <a class="btn btn_contained btn_size_s" href="/login">로그인</a>
-          </li>
-          <li class="header__menu__item">
-            <a class="btn btn_ghost btn_size_s" href="/registration">
-              회원 가입
-            </a>
-          </li>
-        </ul>
-      </header>
+      {{> /layout/header.html}}
       <div class="page">
         <h2 class="page-title">회원가입</h2>
-        <form class="form" action="/user/create" method="post">
+        <form class="form" action="/user/create" method="post" data-ajax="true">
           <div class="textfield textfield_size_s">
             <p class="title_textfield">이메일</p>
             <input
@@ -63,5 +51,6 @@
         </form>
       </div>
     </div>
+    {{> /layout/error-popup.html}}
   </body>
 </html>

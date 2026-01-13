@@ -11,7 +11,7 @@ import web.dispatch.argument.QueryParameters;
 import web.filter.authentication.UserRole;
 import web.handler.SingleArgHandler;
 import web.response.HandlerResponse;
-import web.response.StaticViewResponse;
+import web.response.RedirectResponse;
 
 public class RegisterWithPost extends SingleArgHandler<QueryParameters> {
     private static final Logger log = LoggerFactory.getLogger(RegisterWithPost.class);
@@ -27,6 +27,6 @@ public class RegisterWithPost extends SingleArgHandler<QueryParameters> {
         String password = params.getQueryValue("password").orElseThrow(()-> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, "password required"));
         Database.addUser(new User(password, nickname, email, UserRole.MEMBER.toString()));
         log.info("Registered - password:{}, nickname:{}, email:{}", password, nickname, email);
-        return StaticViewResponse.of("/login");
+        return RedirectResponse.to("/login");
     }
 }

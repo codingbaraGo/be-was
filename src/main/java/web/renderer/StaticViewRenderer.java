@@ -2,7 +2,6 @@ package web.renderer;
 
 import config.VariableConfig;
 import exception.ErrorException;
-import http.HttpStatus;
 import http.response.HttpResponse;
 import web.response.HandlerResponse;
 import web.response.StaticViewResponse;

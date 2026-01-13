@@ -1,0 +1,120 @@
+<style>
+    .error-popup-wrapper {
+      position: fixed;
+      top: 16px;
+      right: 50px;
+      z-index: 1000;
+    }
+    .error-popup {
+      display: none;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 14px 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      min-width: 260px;
+    }
+    .error-popup__title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #d32f2f;
+    }
+    .error-popup__message {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .error-popup__actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .error-popup__ok-btn {
+      cursor: pointer;
+      padding: 4px 12px;
+      font-size: 13px;
+      border-radius: 4px;
+      border: none;
+    }
+</style>
+
+<div class="error-popup-wrapper">
+    <div id="error-popup" class="error-popup">
+        <div class="error-popup__title">알림</div>
+        <div id="error-popup-message" class="error-popup__message"></div>
+        <div class="error-popup__actions">
+            <button id="error-popup-ok" class="error-popup__ok-btn" type="button">
+                OK
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+      const popup = document.getElementById("error-popup");
+      const msgEl = document.getElementById("error-popup-message");
+      const okBtn = document.getElementById("error-popup-ok");
+
+      window.showErrorPopup = function (message, title) {
+        const titleEl = popup.querySelector(".error-popup__title");
+        msgEl.textContent = message || "오류가 발생했습니다.";
+        if (title) titleEl.textContent = title;
+        popup.style.display = "block";
+      };
+
+      window.hideErrorPopup = function () {
+        popup.style.display = "none";
+      };
+
+      okBtn.addEventListener("click", () => window.hideErrorPopup());
+
+      // ---- 공통 submit 가로채기 (B안: data-ajax 있는 폼만) ----
+      document.addEventListener("submit", async (e) => {
+        const form = e.target;
+        if (!(form instanceof HTMLFormElement)) return;
+
+        // 안전하게: data-ajax="true"인 폼만 가로챔
+        if (form.dataset.ajax !== "true") return;
+
+        e.preventDefault();
+
+        // multipart/form-data는 여기서 처리 안 함(파일 업로드 등)
+        const enctype = (form.enctype || "").toLowerCase();
+        if (enctype.includes("multipart/form-data")) {
+          window.showErrorPopup("파일 업로드 폼은 지원하지 않습니다.", "오류");
+          return;
+        }
+
+        const body = new URLSearchParams(new FormData(form));
+
+        try {
+          const res = await fetch(form.action, {
+            method: (form.method || "POST").toUpperCase(),
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body,
+            credentials: "same-origin",
+          });
+
+          if (res.ok) {
+            // 성공 처리: 서버가 리다이렉트를 주는 구조면 여기서 location 설정
+            // 우선 가장 단순하게는 reload 혹은 홈 이동
+            window.location.href = "/";
+            return;
+          }
+
+          let err = null;
+          try { err = await res.json(); } catch {}
+
+          const message =
+            (err && (err.message || err.errorMessage)) ||
+            "요청 처리에 실패했습니다.";
+
+          window.showErrorPopup(message, "요청 실패");
+        } catch (networkError) {
+          window.showErrorPopup("서버와 통신 중 문제가 발생했습니다.", "오류");
+        }
+      }, true); // capture로 잡으면 더 안정적으로 submit을 가로챌 수 있음
+    })();
+</script>

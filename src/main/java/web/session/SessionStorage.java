@@ -11,10 +11,10 @@ public class SessionStorage {
     private final long idleMs = VariableConfig.IDLE_MS;
     private final long absoluteMs = VariableConfig.ABSOLUTE_MS;
 
-    public SessionEntity create(long userId, String userRole) {
+    public SessionEntity create(long userId, String userRole, String nickname) {
         long now = System.currentTimeMillis();
         String sid = UUID.randomUUID().toString();
-        SessionEntity s = new SessionEntity(sid, userId, userRole, now);
+        SessionEntity s = new SessionEntity(sid, userId, userRole, nickname, now);
         store.put(sid, s);
         return s;
     }

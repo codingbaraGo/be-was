@@ -1,6 +1,8 @@
 package web.response;
 
 import http.HttpStatus;
+import http.request.HttpRequest;
+import http.response.HttpResponse;
 import http.response.ResponseCookie;
 
 import java.util.ArrayList;
@@ -26,5 +28,9 @@ public abstract class HandlerResponse {
 
     public List<String> getCookies(){
         return this.cookies.stream().map(ResponseCookie::toHeaderValue).toList();
+    }
+
+    public HandlerResponse postHandling(HttpRequest request, HttpResponse httpResponse){
+        return this;
     }
 }

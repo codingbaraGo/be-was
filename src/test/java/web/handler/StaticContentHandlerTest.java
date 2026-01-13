@@ -8,7 +8,7 @@ class StaticContentHandlerTest {
     private final StaticContentHandler handler = new StaticContentHandler();
     @Test
     void support_test(){
-        Assertions.assertThat(handler.checkEndpoint(HttpMethod.GET, "/index.html")).isTrue();
+        Assertions.assertThat(handler.checkEndpoint(HttpMethod.GET, "/main/index.html")).isTrue();
     }
 
 }

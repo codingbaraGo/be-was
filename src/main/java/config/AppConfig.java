@@ -18,6 +18,7 @@ import web.dispatch.argument.ArgumentResolver;
 import web.dispatch.argument.resolver.HttpRequestResolver;
 import web.dispatch.argument.resolver.QueryParamsResolver;
 import web.filter.*;
+import web.handler.DefaultViewHandler;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
 import web.renderer.DynamicViewRenderer;
@@ -88,7 +89,8 @@ public class AppConfig extends SingletonContainer {
                         registerWithPost(),
                         loginWithPost(),
                         logoutWithPost(),
-                        homeHandler())
+                        homeHandler(),
+                        defaultViewHandler())
         );
     }
 
@@ -97,6 +99,10 @@ public class AppConfig extends SingletonContainer {
                 "staticContentHandler",
                 StaticContentHandler::new
         );
+    }
+
+    public DefaultViewHandler defaultViewHandler(){
+        return getOrCreate("defaultViewHandler", DefaultViewHandler::new);
     }
 
     public RegisterWithGet registerWithGet() {

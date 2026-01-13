@@ -75,6 +75,12 @@ public class HttpResponse {
         setHeader("Content-Length", String.valueOf(body.length));
     }
 
+    public void redirectTo(String path){
+        setStatus(HttpStatus.FOUND);
+        setHeader("Location", path);
+        setHeader("Content-Length", "0");
+    }
+
     private String guessContentType(File file) {
         String byName = URLConnection.guessContentTypeFromName(file.getName());
         if (byName != null) return byName;

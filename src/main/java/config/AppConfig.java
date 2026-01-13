@@ -1,9 +1,6 @@
 package config;
 
-import app.handler.HomeHandler;
-import app.handler.LoginWithPost;
-import app.handler.RegisterWithGet;
-import app.handler.RegisterWithPost;
+import app.handler.*;
 import exception.ExceptionHandlerMapping;
 import exception.handler.ErrorExceptionHandler;
 import exception.handler.ServiceExceptionHandler;
@@ -90,6 +87,7 @@ public class AppConfig extends SingletonContainer {
                         registerWithGet(),
                         registerWithPost(),
                         loginWithPost(),
+                        logoutWithPost(),
                         homeHandler())
         );
     }
@@ -118,6 +116,11 @@ public class AppConfig extends SingletonContainer {
     public LoginWithPost loginWithPost() {
         return getOrCreate("loginWithPost",
                 () -> new LoginWithPost(sessionStorage()));
+    }
+
+    public LogoutWithPost logoutWithPost(){
+        return getOrCreate("logoutWithPost",
+                () -> new LogoutWithPost(sessionStorage()));
     }
 
     public HomeHandler homeHandler(){

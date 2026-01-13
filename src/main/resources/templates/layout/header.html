@@ -6,6 +6,9 @@
         <li class="header__menu__item">
             <span class="header__menu__nickname">닉네임: {{userNickname}}</span>
         </li>
+        <form action="/user/logout" method="POST">
+            <button type="submit">로그아웃</button>
+        </form>
         {{else1}}
         <li class="header__menu__item">
             <a class="btn btn_contained btn_size_s" href="/login">로그인</a>

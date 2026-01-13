@@ -26,7 +26,7 @@ public class UserAuthentication implements AuthenticationInfo {
 
     @Override
     public Optional<Object> getAttribute(String key) {
-        return Optional.of(attributes.get(key));
+        return Optional.ofNullable(attributes.get(key));
     }
 
     @Override

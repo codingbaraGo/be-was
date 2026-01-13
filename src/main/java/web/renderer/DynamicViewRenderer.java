@@ -23,7 +23,6 @@ public class DynamicViewRenderer implements HttpResponseRenderer {
     public HttpResponse handle(HttpResponse httpResponse, HandlerResponse handlerResponse) {
         DynamicViewResponse dynamicViewResponse = (DynamicViewResponse) handlerResponse;
         String path = dynamicViewResponse.getPath();
-        templateEngine.clearCache();
         String render = templateEngine.render(path, dynamicViewResponse.getModel());
 
         httpResponse.setStatus(handlerResponse.getStatus());

@@ -1,5 +1,6 @@
 package config;
 
+import app.handler.HomeHandler;
 import app.handler.LoginWithPost;
 import app.handler.RegisterWithGet;
 import app.handler.RegisterWithPost;
@@ -88,8 +89,8 @@ public class AppConfig extends SingletonContainer {
                         staticContentHandler(),
                         registerWithGet(),
                         registerWithPost(),
-                        loginWithPost()
-                )
+                        loginWithPost(),
+                        homeHandler())
         );
     }
 
@@ -117,6 +118,10 @@ public class AppConfig extends SingletonContainer {
     public LoginWithPost loginWithPost() {
         return getOrCreate("loginWithPost",
                 () -> new LoginWithPost(sessionStorage()));
+    }
+
+    public HomeHandler homeHandler(){
+        return getOrCreate("homeHandler", HomeHandler::new);
     }
 
     // ===== Renderer =====

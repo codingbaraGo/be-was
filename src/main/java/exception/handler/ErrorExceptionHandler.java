@@ -15,7 +15,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ErrorExceptionHandler implements ExceptionHandler {
-    private final Logger logger = LoggerFactory.getLogger(ErrorException.class);
+    private final Logger logger = LoggerFactory.getLogger(ErrorExceptionHandler.class);
     @Override
     public boolean support(Throwable e) {
         return e instanceof ErrorException;

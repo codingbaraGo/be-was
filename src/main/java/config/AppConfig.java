@@ -1,5 +1,6 @@
 package config;
 
+import app.handler.HomeHandler;
 import app.handler.LoginWithPost;
 import app.handler.RegisterWithGet;
 import app.handler.RegisterWithPost;
@@ -22,10 +23,14 @@ import web.dispatch.argument.resolver.QueryParamsResolver;
 import web.filter.*;
 import web.handler.StaticContentHandler;
 import web.handler.WebHandler;
+import web.renderer.DynamicViewRenderer;
 import web.renderer.HttpResponseRenderer;
 import web.renderer.RedirectRenderer;
 import web.renderer.StaticViewRenderer;
+import web.renderer.view.ExpressionResolver;
 import web.session.SessionStorage;
+import web.renderer.view.TemplateEngine;
+import web.renderer.view.TemplateLoader;
 
 import java.util.List;
 
@@ -84,8 +89,8 @@ public class AppConfig extends SingletonContainer {
                         staticContentHandler(),
                         registerWithGet(),
                         registerWithPost(),
-                        loginWithPost()
-                )
+                        loginWithPost(),
+                        homeHandler())
         );
     }
 
@@ -115,13 +120,18 @@ public class AppConfig extends SingletonContainer {
                 () -> new LoginWithPost(sessionStorage()));
     }
 
+    public HomeHandler homeHandler(){
+        return getOrCreate("homeHandler", HomeHandler::new);
+    }
+
     // ===== Renderer =====
     public List<HttpResponseRenderer> httpResponseRendererList() {
         return getOrCreate(
                 "httpResponseRendererList",
                 () -> List.of(
                         staticViewRenderer(),
-                        redirectRenderer()
+                        redirectRenderer(),
+                        dynamicViewRenderer()
                 )
         );
     }
@@ -137,6 +147,24 @@ public class AppConfig extends SingletonContainer {
         return getOrCreate("redirectRenderer", RedirectRenderer::new);
     }
 
+    public DynamicViewRenderer dynamicViewRenderer() {
+        return getOrCreate("dynamicViewRenderer",
+                () -> new DynamicViewRenderer(templateEngine()));
+    }
+
+    // ===== ViewEngine =====
+    public TemplateEngine templateEngine() {
+        return getOrCreate("templateEngine",
+                () -> new TemplateEngine(templateLoader(), expressionResolver()));
+    }
+
+    public ExpressionResolver expressionResolver(){
+        return getOrCreate("expressResolver", ExpressionResolver::new);
+    }
+
+    public TemplateLoader templateLoader() {
+        return getOrCreate("templateLoader", TemplateLoader::new);
+    }
 
     // ===== Adapter =====
     public List<HandlerAdapter> handlerAdapterList() {
@@ -164,7 +192,6 @@ public class AppConfig extends SingletonContainer {
                 DefaultHandlerAdapter::new
         );
     }
-
     // ===== Resolver =====
     public List<ArgumentResolver<?>> argumentResolverList() {
         return getOrCreate(

@@ -25,7 +25,7 @@ class StaticViewResponseHandlerTest {
 
     @AfterEach
     void tearDown() throws IOException {
-        Path index = resourceRoot.resolve("index.html");
+        Path index = resourceRoot.resolve("main/index.html");
         if (Files.exists(index)) {
             Files.delete(index);
         }
@@ -33,7 +33,7 @@ class StaticViewResponseHandlerTest {
 
     @Test
     void supports_true_when_response_is_StaticContentResponse() {
-        HandlerResponse response = StaticViewResponse.of("/index.html");
+        HandlerResponse response = StaticViewResponse.of("main/index.html");
         assertThat(handler.supports(response)).isTrue();
     }
 

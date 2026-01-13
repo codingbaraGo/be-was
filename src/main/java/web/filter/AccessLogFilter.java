@@ -12,6 +12,7 @@ public class AccessLogFilter implements ServletFilter {
 
     @Override
     public void runFilter(HttpRequest request, HttpResponse response, FilterChainContainer.FilterChainEngine chain) {
+        request.getOrGenerateRid();
         chain.doFilter();
         if(request.getAuthenticationInfo()!=null &&
                 request.getAuthenticationInfo().getRole().equals(UserRole.MEMBER)) {

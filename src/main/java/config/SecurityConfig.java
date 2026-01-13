@@ -2,6 +2,8 @@ package config;
 
 import exception.ErrorException;
 
+import java.util.List;
+
 public class SecurityConfig extends SingletonContainer {
     private final AppConfig appConfig = new AppConfig();
     private int callCount;
@@ -15,9 +17,9 @@ public class SecurityConfig extends SingletonContainer {
     public void setPaths(){
         appConfig.filterChainContainer()
                 .addPath(FilterType.AUTHENTICATED, "/mypage/**")
-                .addPath(FilterType.LOG_IN, "/user/login")
-                .addPath(FilterType.ALL, "/user/**")
-                .addPath(FilterType.PUBLIC, "/**");
+                .addPaths(FilterType.LOG_IN, List.of("/user/login", "/login"))
+                .addPaths(FilterType.PUBLIC, List.of("/", "/home/*"))
+                .addPath(FilterType.ALL, "/**");
     }
 
 

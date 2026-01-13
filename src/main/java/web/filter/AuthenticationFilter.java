@@ -3,6 +3,7 @@ package web.filter;
 import http.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
+import web.filter.authentication.AuthenticationInfo;
 import web.filter.authentication.UnanimousAuthentication;
 import web.filter.authentication.UserAuthentication;
 import web.filter.authentication.UserRole;
@@ -20,17 +21,17 @@ public class AuthenticationFilter implements ServletFilter {
     public void runFilter(HttpRequest request, HttpResponse response, FilterChainContainer.FilterChainEngine chain) {
         String sid = request.getCookieValue("SID").orElse(null);
         SessionEntity session = sessionManager.getValid(sid);
+        AuthenticationInfo authInfo;
 
         if (session == null) {
-            request.setAuthenticationInfo(
-                    UnanimousAuthentication.of());
+            authInfo = UnanimousAuthentication.of();
         } else{
-            request.setAuthenticationInfo(
-                    UserAuthentication.of(
-                            session.getUserId(),
-                            UserRole.valueOf(session.getUserRole())));
+            authInfo = UserAuthentication.of(
+                    session.getUserId(),
+                    UserRole.valueOf(session.getUserRole()));
+            authInfo.addAttribute("nickname",session.getNickname());
         }
-
+        request.setAuthenticationInfo(authInfo);
         chain.doFilter();
     }
 }

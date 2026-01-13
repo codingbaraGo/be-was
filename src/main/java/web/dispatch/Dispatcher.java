@@ -41,7 +41,7 @@ public class Dispatcher {
         HandlerAdapter adapter = adapterList.stream().filter(ha -> ha.support(handler))
                 .findFirst().orElseThrow(() -> new ErrorException("DispatcherError: No adapter matched"));
 
-        HandlerResponse handlerResponse = adapter.handle(request, handler);
+        HandlerResponse handlerResponse = adapter.handle(request, handler).postHandling(request, response);
 
         HttpResponseRenderer responseHandler = responseHandlerList.stream()
                 .filter(rh -> rh.supports(handlerResponse))

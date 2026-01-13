@@ -39,7 +39,8 @@ public class LoginWithPost extends SingleArgHandler<QueryParameters> {
 
         SessionEntity session = sessionManager.create(
                 user.getUserId(),
-                user.getUserRole());
+                user.getUserRole(),
+                user.getNickname());
 
         RedirectResponse res = RedirectResponse.to("/");
         res.setCookie(

@@ -16,6 +16,8 @@ import web.dispatch.adapter.DefaultHandlerAdapter;
 import web.dispatch.adapter.SingleArgHandlerAdapter;
 import web.dispatch.argument.ArgumentResolver;
 import web.dispatch.argument.resolver.HttpRequestResolver;
+import web.dispatch.argument.resolver.MultipartFormParser;
+import web.dispatch.argument.resolver.MultipartFormResolver;
 import web.dispatch.argument.resolver.QueryParamsResolver;
 import web.filter.*;
 import web.handler.DefaultViewHandler;
@@ -207,7 +209,8 @@ public class AppConfig extends SingletonContainer {
                 "argumentResolverList",
                 () -> List.of(
                         httpRequestResolver(),
-                        queryParamsResolver()
+                        queryParamsResolver(),
+                        multipartFormResolver()
                 )
         );
     }
@@ -226,6 +229,14 @@ public class AppConfig extends SingletonContainer {
         );
     }
 
+    public MultipartFormResolver multipartFormResolver(){
+        return getOrCreate("multipartFormResolver", () ->
+                new MultipartFormResolver(multipartFormParser()));
+    }
+
+    public MultipartFormParser multipartFormParser(){
+        return getOrCreate("multipartFormParser", MultipartFormParser::new);
+    }
     /**
      * ===== Exception =====
      */

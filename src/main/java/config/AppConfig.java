@@ -1,6 +1,7 @@
 package config;
 
 import app.db.ArticleRepository;
+import app.db.CommentRepository;
 import app.db.UserRepository;
 import app.handler.*;
 import database.ConnectionManager;
@@ -147,7 +148,8 @@ public class AppConfig extends SingletonContainer {
         return getOrCreate("homeHandler",
                 () -> new HomeHandler(
                         articleRepository(),
-                        userRepository()));
+                        userRepository(),
+                        commentRepository()));
     }
 
     // ===== Renderer =====
@@ -363,6 +365,11 @@ public class AppConfig extends SingletonContainer {
     public ArticleRepository articleRepository(){
         return getOrCreate(ArticleRepository.class.getSimpleName(),
                 () -> new ArticleRepository(connectionManager()));
+    }
+
+    public CommentRepository commentRepository(){
+        return getOrCreate(CommentRepository.class.getSimpleName(),
+                () -> new CommentRepository(connectionManager()));
     }
 }
 

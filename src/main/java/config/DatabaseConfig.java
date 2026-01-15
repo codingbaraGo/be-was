@@ -1,6 +1,7 @@
 package config;
 
 import app.model.Article;
+import app.model.Comment;
 import app.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,8 @@ public class DatabaseConfig {
 
     public static final List<Class<?>> ENTITY_CLASSES = List.of(
             User.class,
-            Article.class
+            Article.class,
+            Comment.class
     );
 
     public static final List<String> RESOLVED_WORD = List.of(

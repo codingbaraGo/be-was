@@ -4,6 +4,7 @@ import app.db.ArticleRepository;
 import app.model.Article;
 import config.DatabaseConfig;
 import exception.ErrorCode;
+import exception.ErrorException;
 import exception.ServiceException;
 import http.HttpMethod;
 import org.slf4j.Logger;
@@ -32,7 +33,8 @@ public class CreateArticleWithPost extends DoubleArgHandler<MultipartForm, Authe
 
     @Override
     public HandlerResponse handle(MultipartForm multiform, AuthenticationInfo authInfo) {
-        MultipartFile multipartFile = multiform.getFile("multipartFile").orElseThrow();
+        MultipartFile multipartFile = multiform.getFile("file").orElseThrow(
+                () -> new ErrorException("No file in multiform"));
         Long userId = authInfo.getUserId().orElseThrow(() -> new ServiceException(ErrorCode.UNAUTHORIZED));
 
         String extension = extractExtension(multipartFile);
@@ -50,6 +52,7 @@ public class CreateArticleWithPost extends DoubleArgHandler<MultipartForm, Authe
             Files.write(filePath, multipartFile.bytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e){
             log.error(e.fillInStackTrace().toString());
+            throw new ErrorException("error");
         }
         log.info("Article id[{}] created by {}({})",
                 saved.getId(),

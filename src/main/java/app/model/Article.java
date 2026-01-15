@@ -16,6 +16,8 @@ public class Article {
         this.createdAt = LocalDateTime.now();
     }
 
+    public Article() {}
+
     public Long getId() {
         return id;
     }

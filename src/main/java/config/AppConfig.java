@@ -144,7 +144,10 @@ public class AppConfig extends SingletonContainer {
     }
 
     public HomeHandler homeHandler(){
-        return getOrCreate("homeHandler", HomeHandler::new);
+        return getOrCreate("homeHandler",
+                () -> new HomeHandler(
+                        articleRepository(),
+                        userRepository()));
     }
 
     // ===== Renderer =====

@@ -24,11 +24,11 @@ public class ErrorExceptionHandler implements ExceptionHandler {
     @Override
     public void handle(Throwable t, Socket connection) {
         ErrorException error = (ErrorException) t;
-        logger.debug("{} - {}", error.getMessage(), error.getThrowable().toString());
+        logger.debug(error.getThrowable().toString());
         ErrorCode errorCode = error.getErrorCode();
         HttpStatus status = errorCode.getStatus();
 
-        String body = toJson(errorCode.getCode(), errorCode.getMessage());
+        String body = toJson(errorCode.getCode(), error.getMessage());
         byte[] bodyBytes = body.getBytes(StandardCharsets.UTF_8);
 
         StringBuilder sb = new StringBuilder();

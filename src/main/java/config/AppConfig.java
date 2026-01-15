@@ -1,6 +1,9 @@
 package config;
 
+import app.db.UserRepository;
 import app.handler.*;
+import database.ConnectionManager;
+import database.H2DbManager;
 import exception.ExceptionHandlerMapping;
 import exception.handler.ErrorExceptionHandler;
 import exception.handler.ServiceExceptionHandler;
@@ -94,6 +97,7 @@ public class AppConfig extends SingletonContainer {
         );
     }
 
+    // ===== Handler =====
     public StaticContentHandler staticContentHandler() {
         return getOrCreate(
                 "staticContentHandler",
@@ -297,5 +301,16 @@ public class AppConfig extends SingletonContainer {
     public SessionStorage sessionStorage() {
         return getOrCreate("sessionStorage",
                 SessionStorage::new);
+    }
+
+    /**
+     * ===== DB =====
+     */
+    public ConnectionManager connectionManager(){
+        return h2DbManager();
+    }
+
+    public H2DbManager h2DbManager(){
+        return getOrCreate(H2DbManager.class.getSimpleName(), H2DbManager::new);
     }
 }

@@ -1,6 +1,5 @@
 package config;
 
-import app.db.UserRepository;
 import app.handler.*;
 import database.ConnectionManager;
 import database.H2DbManager;
@@ -313,4 +312,10 @@ public class AppConfig extends SingletonContainer {
     public H2DbManager h2DbManager(){
         return getOrCreate(H2DbManager.class.getSimpleName(), H2DbManager::new);
     }
+
+    public DdlGenerator ddlGenerator(){
+        return getOrCreate(DdlGenerator.class.getSimpleName(), () ->
+                new DdlGenerator(connectionManager()));
+    }
 }
+

@@ -6,6 +6,7 @@ import http.request.HttpRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import web.handler.WebHandler;
+import web.response.RedirectResponse;
 import web.response.StaticViewResponse;
 import web.response.HandlerResponse;
 
@@ -25,7 +26,7 @@ class SingleArgHandlerAdapterTest {
 
         HandlerResponse response = adapter.handle(request, handler);
         assertThat(response).isNotNull();
-        assertThat(response).isInstanceOf(StaticViewResponse.class);
+        assertThat(response).isInstanceOf(RedirectResponse.class);
     }
 
 }

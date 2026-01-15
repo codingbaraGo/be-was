@@ -93,6 +93,7 @@ public class AppConfig extends SingletonContainer {
                         registerWithPost(),
                         loginWithPost(),
                         logoutWithPost(),
+                        createArticleWithPost(),
                         homeHandler(),
                         defaultViewHandler())
         );
@@ -133,6 +134,13 @@ public class AppConfig extends SingletonContainer {
     public LogoutWithPost logoutWithPost(){
         return getOrCreate("logoutWithPost",
                 () -> new LogoutWithPost(sessionStorage()));
+    }
+
+    public CreateArticleWithPost createArticleWithPost(){
+        return getOrCreate(
+                CreateArticleWithPost.class.getSimpleName(),
+                () -> new CreateArticleWithPost(
+                        articleRepository()));
     }
 
     public HomeHandler homeHandler(){

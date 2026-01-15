@@ -9,8 +9,8 @@ public class Article {
     private String content;
     private LocalDateTime createdAt;
 
-    public Article(Long likeCount, Long writerId, String content) {
-        this.likeCount = likeCount;
+    public Article(Long writerId, String content) {
+        this.likeCount = 0L;
         this.writerId = writerId;
         this.content = content;
         this.createdAt = LocalDateTime.now();

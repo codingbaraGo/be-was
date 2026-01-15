@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import config.AppConfig;
+import config.DatabaseConfig;
 import config.FilterConfig;
 import config.SecurityConfig;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ public class WebServer {
     private static final AppConfig LOADER = new AppConfig();
     private static final SecurityConfig securityConfig = new SecurityConfig();
     private static final FilterConfig filterConfig = new FilterConfig();
+    private static final DatabaseConfig databaseConfig = new DatabaseConfig();
     private static final ExecutorService executor = Executors.newFixedThreadPool(32);
 
     public static void main(String args[]) throws Exception {
@@ -53,5 +55,6 @@ public class WebServer {
     private static void config(){
         securityConfig.config();
         filterConfig.config();
+        databaseConfig.config();
     }
 }

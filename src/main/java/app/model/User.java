@@ -1,7 +1,7 @@
 package app.model;
 
 public class User {
-    private Long userId;
+    private Long id;
     private String password;
     private String nickname;
     private String email;
@@ -14,12 +14,12 @@ public class User {
         this.userRole = userRole;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId){
-        this.userId = userId;
+    public void setId(Long id){
+        this.id = id;
     }
 
     public String getPassword() {
@@ -40,6 +40,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [userId=" + userId + ", password=" + password + ", name=" + nickname + ", email=" + email + "]";
+        return "User [userId=" + id + ", password=" + password + ", name=" + nickname + ", email=" + email + "]";
     }
 }

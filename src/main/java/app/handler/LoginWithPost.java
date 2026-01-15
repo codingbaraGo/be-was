@@ -38,7 +38,7 @@ public class LoginWithPost extends SingleArgHandler<QueryParameters> {
         }
 
         SessionEntity session = sessionManager.create(
-                user.getUserId(),
+                user.getId(),
                 user.getUserRole(),
                 user.getNickname());
 

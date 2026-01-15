@@ -14,7 +14,7 @@ public class Database {
 
     public static void addUser(User user) {
         long id = sequentialId.getAndIncrement();
-        user.setUserId(id);
+        user.setId(id);
         users.put(id, user);
     }
 

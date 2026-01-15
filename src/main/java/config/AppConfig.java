@@ -1,6 +1,5 @@
 package config;
 
-import app.db.UserRepository;
 import app.handler.*;
 import database.ConnectionManager;
 import database.H2DbManager;
@@ -121,7 +120,8 @@ public class AppConfig extends SingletonContainer {
     public RegisterWithPost registerWithPost() {
         return getOrCreate(
                 "registerWithPost",
-                () -> new RegisterWithPost(userRepository()));
+                RegisterWithPost::new
+        );
     }
 
     public LoginWithPost loginWithPost() {
@@ -233,9 +233,8 @@ public class AppConfig extends SingletonContainer {
     }
 
     public MultipartFormResolver multipartFormResolver(){
-        return getOrCreate("multipartFormResolver",
-                () -> new MultipartFormResolver(multipartFormParser()));
-
+        return getOrCreate("multipartFormResolver", () ->
+                new MultipartFormResolver(multipartFormParser()));
     }
 
     public MultipartFormParser multipartFormParser(){
@@ -251,7 +250,10 @@ public class AppConfig extends SingletonContainer {
                         List.of(
                                 serviceExceptionHandler(),
                                 errorExceptionHandler(),
-                                unhandledErrorHandler())));
+                                unhandledErrorHandler()
+                        )
+                )
+        );
     }
 
     public ServiceExceptionHandler serviceExceptionHandler() {
@@ -323,13 +325,8 @@ public class AppConfig extends SingletonContainer {
     }
 
     public DdlGenerator ddlGenerator(){
-        return getOrCreate(DdlGenerator.class.getSimpleName(),
-                () -> new DdlGenerator(connectionManager()));
-    }
-
-    public UserRepository userRepository(){
-        return getOrCreate(UserRepository.class.getSimpleName(),
-                ()-> new UserRepository(connectionManager()));
+        return getOrCreate(DdlGenerator.class.getSimpleName(), () ->
+                new DdlGenerator(connectionManager()));
     }
 }
 

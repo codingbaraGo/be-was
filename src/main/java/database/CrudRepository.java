@@ -43,10 +43,10 @@ public class CrudRepository<T> {
                 if (Modifier.isStatic(field.getModifiers())) {
                     continue;
                 }
-                if ("id".equals(toColumnName(field.getName()))) {
+                if ("id".equals(field.getName())) {
                     continue;
                 }
-                sqlBuilder.append(toColumnName(field.getName())).append(", ");
+                sqlBuilder.append(field.getName()).append(", ");
                 placeholder.append("?, ");
                 insertFields.add(field);
             }
@@ -128,7 +128,7 @@ public class CrudRepository<T> {
     }
 
     public List<T> findByColumn(String columnName, Object value) {
-        String sql = "SELECT * FROM " + tableName + " WHERE " + toColumnName(columnName) + " = ?";
+        String sql = "SELECT * FROM " + tableName + " WHERE " + columnName + " = ?";
 
         try (Connection conn = connectionManager.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -145,7 +145,7 @@ public class CrudRepository<T> {
             }
 
         } catch (SQLException e) {
-            throw new ErrorException("엔티티 조회 중 오류 (column=" + toColumnName(columnName) + ", value=" + value + ")", e);
+            throw new ErrorException("엔티티 조회 중 오류 (column=" + columnName + ", value=" + value + ")", e);
         }
     }
 
@@ -167,10 +167,10 @@ public class CrudRepository<T> {
             if (Modifier.isStatic(field.getModifiers())) {
                 continue;
             }
-            if ("id".equals(toColumnName(field.getName()))) {
+            if ("id".equals(field.getName())) {
                 continue;
             }
-            sql.append(toColumnName(field.getName())).append(" = ?, ");
+            sql.append(field.getName()).append(" = ?, ");
             updateFields.add(field);
         }
 
@@ -264,7 +264,7 @@ public class CrudRepository<T> {
                     continue;
                 }
 
-                String columnName = toColumnName(field.getName());
+                String columnName = field.getName();
                 field.setAccessible(true);
 
                 Class<?> fieldType = field.getType();
@@ -310,10 +310,5 @@ public class CrudRepository<T> {
                 return "`" + word + "`";
         }
         return name;
-    }
-
-    private String toColumnName(String str){
-        String snake = str.replaceAll("(?<!^)([A-Z])", "_$1");
-        return snake.toLowerCase();
     }
 }

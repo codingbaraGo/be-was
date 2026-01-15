@@ -20,10 +20,7 @@ import web.dispatch.adapter.DefaultHandlerAdapter;
 import web.dispatch.adapter.DoubleArgHandlerAdapter;
 import web.dispatch.adapter.SingleArgHandlerAdapter;
 import web.dispatch.argument.ArgumentResolver;
-import web.dispatch.argument.resolver.HttpRequestResolver;
-import web.dispatch.argument.resolver.MultipartFormParser;
-import web.dispatch.argument.resolver.MultipartFormResolver;
-import web.dispatch.argument.resolver.QueryParamsResolver;
+import web.dispatch.argument.resolver.*;
 import web.filter.*;
 import web.handler.DefaultViewHandler;
 import web.handler.StaticContentHandler;
@@ -227,7 +224,8 @@ public class AppConfig extends SingletonContainer {
                 () -> List.of(
                         httpRequestResolver(),
                         queryParamsResolver(),
-                        multipartFormResolver()
+                        multipartFormResolver(),
+                        authenticationInfoResolver()
                 )
         );
     }
@@ -253,6 +251,12 @@ public class AppConfig extends SingletonContainer {
 
     public MultipartFormParser multipartFormParser(){
         return getOrCreate("multipartFormParser", MultipartFormParser::new);
+    }
+
+    public AuthenticationInfoResolver authenticationInfoResolver(){
+        return getOrCreate(
+                AuthenticationInfoResolver.class.getSimpleName(),
+                AuthenticationInfoResolver::new);
     }
     /**
      * ===== Exception =====

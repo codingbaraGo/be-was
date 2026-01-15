@@ -16,6 +16,7 @@ import http.response.HttpResponseConverter;
 import web.dispatch.Dispatcher;
 import web.dispatch.HandlerAdapter;
 import web.dispatch.adapter.DefaultHandlerAdapter;
+import web.dispatch.adapter.DoubleArgHandlerAdapter;
 import web.dispatch.adapter.SingleArgHandlerAdapter;
 import web.dispatch.argument.ArgumentResolver;
 import web.dispatch.argument.resolver.HttpRequestResolver;
@@ -186,6 +187,7 @@ public class AppConfig extends SingletonContainer {
                 "handlerAdapterList",
                 () -> List.of(
                         singleArgHandlerAdapter(),
+                        doubleArgHandlerAdapter(),
                         defaultHandlerAdapter()
                 )
         );
@@ -195,6 +197,15 @@ public class AppConfig extends SingletonContainer {
         return getOrCreate(
                 "singleArgHandlerAdapter",
                 () -> new SingleArgHandlerAdapter(
+                        argumentResolverList()
+                )
+        );
+    }
+
+    public DoubleArgHandlerAdapter doubleArgHandlerAdapter(){
+        return getOrCreate(
+                DoubleArgHandlerAdapter.class.getSimpleName(),
+                () -> new DoubleArgHandlerAdapter(
                         argumentResolverList()
                 )
         );

@@ -13,6 +13,7 @@ public enum ErrorCode {
     NICKNAME_LENGTH_INVALID(HttpStatus.BAD_REQUEST, "400_NICKNAME_LENGTH_INVALID", "닉네임은 4 ~ 12글자 사이여야합니다."),
     PASSWORD_LENGTH_INVALID(HttpStatus.BAD_REQUEST, "400_PASSWORD_LENGTH_INVALID", "비밀번호는 4 ~ 16글자 사이여야합니다."),
 
+    EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "404_EMAIL_NOT_FOUND", "존재하지 않는 이메일입니다."),
 
     EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "409_EMAIL_ALREADY_EXISTS", "이미 가입된 Email입니다."),
     NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, "409_NICKNAME_ALREADY_EXISTS", "이미 사용중인 닉네임입니다."),

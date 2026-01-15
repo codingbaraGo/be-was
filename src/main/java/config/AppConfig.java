@@ -128,7 +128,9 @@ public class AppConfig extends SingletonContainer {
 
     public LoginWithPost loginWithPost() {
         return getOrCreate("loginWithPost",
-                () -> new LoginWithPost(sessionStorage()));
+                () -> new LoginWithPost(
+                        sessionStorage(),
+                        userRepository()));
     }
 
     public LogoutWithPost logoutWithPost(){

@@ -20,8 +20,8 @@ public class H2DbManager implements ConnectionManager{
         try {
             return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (SQLException e){
-            log.info(e.fillInStackTrace().toString());
-            log.info(e.getSQLState());
+            log.error(e.fillInStackTrace().toString());
+            log.error(e.getSQLState());
             throw new ErrorException("DB error");
         }
     }

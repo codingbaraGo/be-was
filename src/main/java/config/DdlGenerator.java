@@ -57,7 +57,7 @@ public class DdlGenerator {
                 continue;
             }
 
-            String columnName = field.getName();
+            String columnName = toColumnName(field.getName());
             Class<?> fieldType = field.getType();
 
             if (!firstColumn) {
@@ -107,5 +107,10 @@ public class DdlGenerator {
                 return "`" + word + "`";
         }
         return name;
+    }
+
+    private String toColumnName(String str){
+        String snake = str.replaceAll("(?<!^)([A-Z])", "_$1");
+        return snake.toLowerCase();
     }
 }

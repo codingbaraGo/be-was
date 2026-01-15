@@ -1,0 +1,38 @@
+package app.model;
+
+import java.time.LocalDateTime;
+
+public class Article {
+    private Long id;
+    private Long likeCount;
+    private Long writerId;
+    private String content;
+    private LocalDateTime createdAt;
+
+    public Article(Long likeCount, Long writerId, String content) {
+        this.likeCount = likeCount;
+        this.writerId = writerId;
+        this.content = content;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getLikeCount() {
+        return likeCount;
+    }
+
+    public Long getWriterId() {
+        return writerId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+}

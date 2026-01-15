@@ -1,5 +1,6 @@
 package config;
 
+import app.model.Article;
 import app.model.User;
 import java.util.List;
 
@@ -7,7 +8,8 @@ public class DatabaseConfig {
     private final AppConfig appConfig = new AppConfig();
 
     public static final List<Class<?>> ENTITY_CLASSES = List.of(
-            User.class
+            User.class,
+            Article.class
     );
 
     public static final List<String> RESOLVED_WORD = List.of(

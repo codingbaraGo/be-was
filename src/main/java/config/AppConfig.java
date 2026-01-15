@@ -1,5 +1,6 @@
 package config;
 
+import app.db.ArticleRepository;
 import app.db.UserRepository;
 import app.handler.*;
 import database.ConnectionManager;
@@ -340,6 +341,11 @@ public class AppConfig extends SingletonContainer {
     public UserRepository userRepository(){
         return getOrCreate(UserRepository.class.getSimpleName(),
                 ()-> new UserRepository(connectionManager()));
+    }
+
+    public ArticleRepository articleRepository(){
+        return getOrCreate(ArticleRepository.class.getSimpleName(),
+                () -> new ArticleRepository(connectionManager()));
     }
 }
 

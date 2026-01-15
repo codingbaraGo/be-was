@@ -79,20 +79,21 @@
 
         // multipart/form-data는 여기서 처리 안 함(파일 업로드 등)
         const enctype = (form.enctype || "").toLowerCase();
-        if (enctype.includes("multipart/form-data")) {
-          window.showErrorPopup("파일 업로드 폼은 지원하지 않습니다.", "오류");
-          return;
-        }
+        const isMultipart = enctype.includes("multipart/form-data");
 
-        const body = new URLSearchParams(new FormData(form));
+         const body = isMultipart
+            ? new FormData(form)
+            : new URLSearchParams(new FormData(form));
+
 
         try {
+          const headers = { "Accept": "application/json" };
+            if (!isMultipart) {
+              headers["Content-Type"] = "application/x-www-form-urlencoded";
+            }
           const res = await fetch(form.action, {
             method: (form.method || "POST").toUpperCase(),
-            headers: {
-              "Accept": "application/json",
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
+            headers,
             body,
             credentials: "same-origin",
           });

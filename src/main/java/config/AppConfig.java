@@ -235,6 +235,7 @@ public class AppConfig extends SingletonContainer {
     public MultipartFormResolver multipartFormResolver(){
         return getOrCreate("multipartFormResolver",
                 () -> new MultipartFormResolver(multipartFormParser()));
+
     }
 
     public MultipartFormParser multipartFormParser(){

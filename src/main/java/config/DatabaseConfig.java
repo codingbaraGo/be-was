@@ -32,6 +32,8 @@ public class DatabaseConfig {
     public static final String H2_DB_PASSWORD = "";
 
     public static final String ARTICLE_IMG_DIR = "./src/main/resources/static/article/img";
+    public static final String PROFILE_IMG_DIR = "./src/main/resources/static/mypage/img";
+    public static final String BASIC_PROFILE_IMG = "/img/basic_profileImage.svg";
 
     public static final boolean CREATE_TABLES = false;
     public static final boolean DROP_IF_EXISTS = false;
@@ -43,6 +45,7 @@ public class DatabaseConfig {
         }
         if(DROP_IF_EXISTS){
             resetDir(ARTICLE_IMG_DIR);
+            resetDir(PROFILE_IMG_DIR);
         }
     }
 

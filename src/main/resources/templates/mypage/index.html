@@ -13,60 +13,144 @@
       <div class="page">
         <h2 class="page-title">마이페이지</h2>
 
-        <div class="profile_container">
-          <div class="profile_box">
-              <div class="profile_image">
-                <img class="profile" />
-              </div>
-              <div class="profile_frame">
-                  <div class="btn_profile">
-                        <div class="btn_container">수정</div>
-                  </div>
-                  <div class="btn_bar"></div>
-                  <div class="btn_profile">
-                      <div class="btn_container">삭제</div>
-                  </div>
-              </div>
-        </div>
-          <form class="form">
-            <div class="textfield textfield_size_s input_margin">
-              <p class="title_textfield">닉네임</p>
-              <input
-                class="input_textfield"
-                placeholder="{회원 가입 시 입력했던 닉네임}"
-                autocomplete="username"
-              />
-            </div>
-            <div class="textfield textfield_size_s">
-              <p class="title_textfield">비밀번호</p>
-              <input
-                class="input_textfield"
-                placeholder="비밀번호를 변경할 경우 입력해주세요"
-                autocomplete="current-password"
-              />
-            </div>
-            <div class="textfield textfield_size_s">
-              <p class="title_textfield">비밀번호 확인</p>
-              <input
-                class="input_textfield"
-                type="password"
-                placeholder="한 번 더 입력해주세요"
-                autocomplete="current-password"
-              />
-            </div>
-            <button
-              id="registration-btn"
-              class="btn btn_contained btn_size_m input_margin"
-            
-              type="button"
-            >
-              변경사항 저장
-            </button>
+          <form
+                  class="form"
+                  action="/mypage/update"
+                  method="post"
+                  enctype="multipart/form-data"
+          >
 
-            </form>
-          </div>
-        </div>
+              <div class="profile_container">
+                  <div class="profile_box">
+                      <div class="profile_image">
+                          <img
+                                  id="profilePreview"
+                                  class="profile"
+                                  src="{{profileImageUrl}}"
+                                  alt="profile"
+                          />
+                      </div>
+
+                      <div class="profile_frame">
+                          <!-- 수정: 파일 선택 -->
+                          <div class="btn_profile">
+                              <label class="btn_container" for="profileFile">수정</label>
+                              <input
+                                      id="profileFile"
+                                      name="profileImage"
+                                      type="file"
+                                      accept="image/png,image/jpeg"
+                                      style="display: none"
+                              />
+                          </div>
+
+                          <div class="btn_bar"></div>
+
+                          <button id="profileDeleteBtn" class="btn_profile" type="button">
+                              <div class="btn_container">삭제</div>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+
+
+              <!-- 삭제 여부를 서버로 전달 (저장 버튼에서만 반영) -->
+              <input
+                      type="hidden"
+                      id="profileDeleted"
+                      name="profileDeleted"
+                      value="false"
+              />
+
+              <div class="textfield textfield_size_s input_margin">
+                  <p class="title_textfield">닉네임</p>
+                  <!-- placeholder가 아니라 value로 넣어야 제출 시 값이 전달됨 -->
+                  <input
+                          class="input_textfield"
+                          name="nickname"
+                          placeholder="{{userNickname}}"
+                          autocomplete="username"
+                  />
+              </div>
+
+              <div class="textfield textfield_size_s">
+                  <p class="title_textfield">비밀번호</p>
+                  <input
+                          class="input_textfield"
+                          name="password"
+                          type="password"
+                          placeholder="비밀번호를 변경할 경우 입력해주세요"
+                          autocomplete="new-password"
+                  />
+              </div>
+
+              <div class="textfield textfield_size_s">
+                  <p class="title_textfield">비밀번호 확인</p>
+                  <input
+                          class="input_textfield"
+                          name="passwordConfirm"
+                          type="password"
+                          placeholder="한 번 더 입력해주세요"
+                          autocomplete="new-password"
+                  />
+              </div>
+
+              <button
+                      id="registration-btn"
+                      class="btn btn_contained btn_size_m input_margin"
+                      type="submit"
+              >
+                  변경사항 저장
+              </button>
+          </form>
+      </div>
     </div>
         {{> /layout/error-popup.html}}
+
+    <script>
+        (function () {
+          const fileInput = document.getElementById("profileFile");
+          const previewImg = document.getElementById("profilePreview");
+          const deleteBtn = document.getElementById("profileDeleteBtn");
+          const deletedFlag = document.getElementById("profileDeleted");
+
+          // 서버가 기본 프로필 이미지 URL을 내려줘야 한다.
+          // 예: /static/img/default-profile.png
+          const defaultImageUrl = "{{defaultProfileImageUrl}}";
+
+          // 파일 선택 시: 로컬에서만 미리보기(서버 반영 X)
+          fileInput.addEventListener("change", function () {
+            const file = fileInput.files && fileInput.files[0];
+            if (!file) return;
+
+            // 새 파일을 선택했으면 삭제 플래그 해제
+            deletedFlag.value = "false";
+
+            // 이전 object URL이 있으면 해제
+            if (previewImg.dataset.objectUrl) {
+              URL.revokeObjectURL(previewImg.dataset.objectUrl);
+            }
+
+            const objectUrl = URL.createObjectURL(file);
+            previewImg.src = objectUrl;
+            previewImg.dataset.objectUrl = objectUrl;
+          });
+
+          // 삭제 클릭 시: 화면상 기본 이미지로 돌리고, 삭제 플래그만 true로(서버 반영 X)
+          deleteBtn.addEventListener("click", function () {
+            // 선택했던 파일 무효화
+            fileInput.value = "";
+
+            // object URL 해제
+            if (previewImg.dataset.objectUrl) {
+              URL.revokeObjectURL(previewImg.dataset.objectUrl);
+              delete previewImg.dataset.objectUrl;
+            }
+
+            previewImg.src = defaultImageUrl;
+            deletedFlag.value = "true";
+          });
+        })();
+    </script>
   </body>
 </html>

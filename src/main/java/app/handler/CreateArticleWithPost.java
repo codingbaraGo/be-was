@@ -35,7 +35,8 @@ public class CreateArticleWithPost extends DoubleArgHandler<MultipartForm, Authe
     public HandlerResponse handle(MultipartForm multiform, AuthenticationInfo authInfo) {
         MultipartFile multipartFile = multiform.getFile("file").orElseThrow(
                 () -> new ErrorException("No file in multiform"));
-        Long userId = authInfo.getUserId().orElseThrow(() -> new ServiceException(ErrorCode.UNAUTHORIZED));
+        Long userId = authInfo.getUserId().orElseThrow(
+                () -> new ServiceException(ErrorCode.UNAUTHORIZED));
 
         String extension = extractExtension(multipartFile);
 

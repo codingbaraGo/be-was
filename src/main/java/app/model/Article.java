@@ -37,4 +37,8 @@ public class Article {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    public Long increaseLikeCount(){
+        return ++this.likeCount;
+    }
 }

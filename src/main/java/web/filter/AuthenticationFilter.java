@@ -1,6 +1,5 @@
 package web.filter;
 
-import http.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import web.filter.authentication.AuthenticationInfo;

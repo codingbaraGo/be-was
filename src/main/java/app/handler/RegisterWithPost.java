@@ -14,6 +14,9 @@ import web.handler.SingleArgHandler;
 import web.response.HandlerResponse;
 import web.response.RedirectResponse;
 
+import static config.VariableConfig.*;
+import static exception.ErrorCode.*;
+
 public class RegisterWithPost extends SingleArgHandler<QueryParameters> {
     private static final String EMAIL = "email";
     private static final String NICKNAME = "nickname";
@@ -46,14 +49,14 @@ public class RegisterWithPost extends SingleArgHandler<QueryParameters> {
 
     private void validate(String email, String nickname, String password) {
         validateDuplicate(email, nickname);
-        validateLength(email, VariableConfig.EMAIL_MIN, VariableConfig.EMAIL_MAX, ErrorCode.EMAIL_LENGTH_INVALID);
-        validateLength(nickname, VariableConfig.NICKNAME_MIN, VariableConfig.NICKNAME_MAX, ErrorCode.NICKNAME_LENGTH_INVALID);
-        validateLength(password, VariableConfig.PASSWORD_MIN, VariableConfig.PASSWORD_MAX, ErrorCode.PASSWORD_LENGTH_INVALID);
+        validateLength(email, EMAIL_MIN, EMAIL_MAX, EMAIL_LENGTH_INVALID);
+        validateLength(nickname, NICKNAME_MIN, NICKNAME_MAX, NICKNAME_LENGTH_INVALID);
+        validateLength(password, PASSWORD_MIN, PASSWORD_MAX, PASSWORD_LENGTH_INVALID);
     }
 
     private String getRequired(QueryParameters params, String key) {
         return params.getQueryValue(key)
-                .orElseThrow(() -> new ServiceException(ErrorCode.MISSING_REGISTER_TOKEN, key + " required"));
+                .orElseThrow(() -> new ServiceException(MISSING_REGISTER_TOKEN, key + " required"));
     }
 
     private void validateLength(String value, int min, int max, ErrorCode code) {
@@ -64,9 +67,9 @@ public class RegisterWithPost extends SingleArgHandler<QueryParameters> {
 
     private void validateDuplicate(String email, String nickname) {
         if (!userRepository.findByColumn(EMAIL, email).isEmpty())
-            throw new ServiceException(ErrorCode.EMAIL_ALREADY_EXISTS);
+            throw new ServiceException(EMAIL_ALREADY_EXISTS);
 
         if (!userRepository.findByColumn(NICKNAME, nickname).isEmpty())
-            throw new ServiceException(ErrorCode.NICKNAME_ALREADY_EXISTS);
+            throw new ServiceException(NICKNAME_ALREADY_EXISTS);
     }
 }

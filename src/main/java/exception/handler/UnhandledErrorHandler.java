@@ -22,7 +22,9 @@ public class UnhandledErrorHandler implements ExceptionHandler {
     public void handle(Throwable t, Socket connection) {
         String body = "{\"code\":\"500_UNHANDLED\",\"message\":\"서버 내부 오류가 발생했습니다.\"}";
         byte[] bodyBytes = body.getBytes(StandardCharsets.UTF_8);
-        logger.debug(t.getMessage());
+        logger.error(t.getMessage());
+        logger.error(t.fillInStackTrace().toString());
+        t.printStackTrace();
         String header =
                 "HTTP/1.1 500 Internal Server Error\r\n" +
                         "Date: " + DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now()) + "\r\n" +

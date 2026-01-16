@@ -12,7 +12,11 @@ public enum ErrorCode {
     EMAIL_LENGTH_INVALID(HttpStatus.BAD_REQUEST, "400_EMAIL_LENGTH_INVALID", "이메일은 4 ~ 50글자 사이여야합니다."),
     NICKNAME_LENGTH_INVALID(HttpStatus.BAD_REQUEST, "400_NICKNAME_LENGTH_INVALID", "닉네임은 4 ~ 12글자 사이여야합니다."),
     PASSWORD_LENGTH_INVALID(HttpStatus.BAD_REQUEST, "400_PASSWORD_LENGTH_INVALID", "비밀번호는 4 ~ 16글자 사이여야합니다."),
+    UNSUPPORTED_IMAGE_TYPE(HttpStatus.BAD_REQUEST, "400_UNSUPPORTED_IMAGE_TYPE", "지원되지 않는 이미지 타입입니다."),
+    EMPTY_IMG_ARTICLE(HttpStatus.BAD_REQUEST, "400_EMPTY_IMG_ARTICLE", "이미지가 존재하지 않는 게시글입니다."),
 
+
+    EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "404_EMAIL_NOT_FOUND", "존재하지 않는 이메일입니다."),
 
     EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "409_EMAIL_ALREADY_EXISTS", "이미 가입된 Email입니다."),
     NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, "409_NICKNAME_ALREADY_EXISTS", "이미 사용중인 닉네임입니다."),
@@ -24,6 +28,9 @@ public enum ErrorCode {
     INVALID_INPUT(HttpStatus.BAD_REQUEST, "400_INVALID_INPUT", "입력 값이 올바르지 않습니다."),
     MISSING_PARAMETER(HttpStatus.BAD_REQUEST, "400_MISSING_PARAM", "필수 파라미터가 누락되었습니다."),
     VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "400_VALIDATION_FAIL", "유효성 검증에 실패했습니다."),
+    PASSWORD_DOUBLE_CHECK_FAIL(HttpStatus.BAD_REQUEST, "400_PASSWORD_DOUBLE_CHECK_FAIL", "비밀번호가 서로 다릅니다."),
+
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "401_UNAUTHORIZED", "로그인이 필요합니다."),
 
     FORBIDDEN(HttpStatus.FORBIDDEN, "403_FORBIDDEN", "권한이 없습니다."),
 

@@ -1,5 +1,7 @@
 package config;
 
+import app.db.ArticleRepository;
+import app.db.CommentRepository;
 import app.db.UserRepository;
 import app.handler.*;
 import database.ConnectionManager;
@@ -16,15 +18,14 @@ import http.response.HttpResponseConverter;
 import web.dispatch.Dispatcher;
 import web.dispatch.HandlerAdapter;
 import web.dispatch.adapter.DefaultHandlerAdapter;
+import web.dispatch.adapter.DoubleArgHandlerAdapter;
 import web.dispatch.adapter.SingleArgHandlerAdapter;
 import web.dispatch.argument.ArgumentResolver;
-import web.dispatch.argument.resolver.HttpRequestResolver;
-import web.dispatch.argument.resolver.MultipartFormParser;
-import web.dispatch.argument.resolver.MultipartFormResolver;
-import web.dispatch.argument.resolver.QueryParamsResolver;
+import web.dispatch.argument.resolver.*;
 import web.filter.*;
 import web.handler.DefaultViewHandler;
 import web.handler.StaticContentHandler;
+import web.handler.UserProfileImageHandler;
 import web.handler.WebHandler;
 import web.renderer.DynamicViewRenderer;
 import web.renderer.HttpResponseRenderer;
@@ -94,6 +95,13 @@ public class AppConfig extends SingletonContainer {
                         registerWithPost(),
                         loginWithPost(),
                         logoutWithPost(),
+                        createArticleWithPost(),
+                        createCommentWithPost(),
+                        getCommentCreateForm(),
+                        articleLikeIncreaseHandler(),
+                        mypageHandler(),
+                        mypageUpdateHandler(),
+                        userProfileImageHandler(),
                         homeHandler(),
                         defaultViewHandler())
         );
@@ -126,7 +134,9 @@ public class AppConfig extends SingletonContainer {
 
     public LoginWithPost loginWithPost() {
         return getOrCreate("loginWithPost",
-                () -> new LoginWithPost(sessionStorage()));
+                () -> new LoginWithPost(
+                        sessionStorage(),
+                        userRepository()));
     }
 
     public LogoutWithPost logoutWithPost(){
@@ -134,8 +144,59 @@ public class AppConfig extends SingletonContainer {
                 () -> new LogoutWithPost(sessionStorage()));
     }
 
+    public CreateArticleWithPost createArticleWithPost(){
+        return getOrCreate(
+                CreateArticleWithPost.class.getSimpleName(),
+                () -> new CreateArticleWithPost(
+                        articleRepository()));
+    }
+
+    public CreateCommentWithPost createCommentWithPost(){
+        return getOrCreate(
+                CreateCommentWithPost.class.getSimpleName(),
+                () -> new CreateCommentWithPost(
+                        commentRepository()));
+    }
+
+    public GetCommentCreateForm getCommentCreateForm(){
+        return getOrCreate(
+                GetCommentCreateForm.class.getSimpleName(),
+                GetCommentCreateForm::new);
+    }
+
+    public ArticleLikeIncreaseHandler articleLikeIncreaseHandler(){
+        return getOrCreate(
+                ArticleLikeIncreaseHandler.class.getSimpleName(),
+                () -> new ArticleLikeIncreaseHandler(
+                        articleRepository()));
+    }
+
+    public MypageHandler mypageHandler(){
+        return getOrCreate(
+                MypageHandler.class.getSimpleName(),
+                MypageHandler::new);
+    }
+
+    public MypageUpdateHandler mypageUpdateHandler(){
+        return getOrCreate(
+                MypageUpdateHandler.class.getSimpleName(),
+                () -> new MypageUpdateHandler(
+                        userRepository(),
+                        sessionStorage()));
+    }
+
+    public UserProfileImageHandler userProfileImageHandler(){
+        return getOrCreate(
+                UserProfileImageHandler.class.getSimpleName(),
+                UserProfileImageHandler::new);
+    }
+
     public HomeHandler homeHandler(){
-        return getOrCreate("homeHandler", HomeHandler::new);
+        return getOrCreate("homeHandler",
+                () -> new HomeHandler(
+                        articleRepository(),
+                        userRepository(),
+                        commentRepository()));
     }
 
     // ===== Renderer =====
@@ -186,6 +247,7 @@ public class AppConfig extends SingletonContainer {
                 "handlerAdapterList",
                 () -> List.of(
                         singleArgHandlerAdapter(),
+                        doubleArgHandlerAdapter(),
                         defaultHandlerAdapter()
                 )
         );
@@ -195,6 +257,15 @@ public class AppConfig extends SingletonContainer {
         return getOrCreate(
                 "singleArgHandlerAdapter",
                 () -> new SingleArgHandlerAdapter(
+                        argumentResolverList()
+                )
+        );
+    }
+
+    public DoubleArgHandlerAdapter doubleArgHandlerAdapter(){
+        return getOrCreate(
+                DoubleArgHandlerAdapter.class.getSimpleName(),
+                () -> new DoubleArgHandlerAdapter(
                         argumentResolverList()
                 )
         );
@@ -213,7 +284,8 @@ public class AppConfig extends SingletonContainer {
                 () -> List.of(
                         httpRequestResolver(),
                         queryParamsResolver(),
-                        multipartFormResolver()
+                        multipartFormResolver(),
+                        authenticationInfoResolver()
                 )
         );
     }
@@ -239,6 +311,12 @@ public class AppConfig extends SingletonContainer {
 
     public MultipartFormParser multipartFormParser(){
         return getOrCreate("multipartFormParser", MultipartFormParser::new);
+    }
+
+    public AuthenticationInfoResolver authenticationInfoResolver(){
+        return getOrCreate(
+                AuthenticationInfoResolver.class.getSimpleName(),
+                AuthenticationInfoResolver::new);
     }
     /**
      * ===== Exception =====
@@ -329,6 +407,16 @@ public class AppConfig extends SingletonContainer {
     public UserRepository userRepository(){
         return getOrCreate(UserRepository.class.getSimpleName(),
                 ()-> new UserRepository(connectionManager()));
+    }
+
+    public ArticleRepository articleRepository(){
+        return getOrCreate(ArticleRepository.class.getSimpleName(),
+                () -> new ArticleRepository(connectionManager()));
+    }
+
+    public CommentRepository commentRepository(){
+        return getOrCreate(CommentRepository.class.getSimpleName(),
+                () -> new CommentRepository(connectionManager()));
     }
 }
 

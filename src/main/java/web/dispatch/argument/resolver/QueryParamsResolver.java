@@ -9,13 +9,18 @@ public class QueryParamsResolver extends ArgumentResolver<QueryParameters> {
 
     @Override
     public QueryParameters resolve(HttpRequest request) {
-            String queryString = request.getQueryString();
-            if(queryString==null) {
-                if (request.getContentType() != null
-                        && request.getContentType().strip().equalsIgnoreCase("application/x-www-form-urlencoded")) {
-                    queryString = new String(request.getBody(), StandardCharsets.UTF_8);
-                } else queryString = "";
+            String queryString = "";
+            queryString += request.getQueryString() == null
+                    ? "" : request.getQueryString();
+        System.out.println(queryString);
+
+        if (request.getContentType() != null
+                    && request.getContentType().strip().equalsIgnoreCase("application/x-www-form-urlencoded")
+                    && request.getBody()!=null) {
+                queryString += new String(request.getBody(), StandardCharsets.UTF_8);
             }
+        System.out.println(queryString);
+
         return QueryParameters.of(queryString);
     }
 }

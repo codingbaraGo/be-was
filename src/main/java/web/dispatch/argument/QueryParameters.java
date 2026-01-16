@@ -1,5 +1,8 @@
 package web.dispatch.argument;
 
+import exception.ErrorCode;
+import exception.ServiceException;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
@@ -27,6 +30,11 @@ public class QueryParameters {
         return Optional.empty();
     }
 
+    public String getValidQueryValue(String key){
+        return getQueryValue(key)
+                .orElseThrow(() -> new ServiceException(ErrorCode.MISSING_PARAMETER, key + " required"));
+    }
+
     public List<String> getQueryValues(String key){
         if(params.containsKey(key))
             return params.get(key);
@@ -47,7 +55,7 @@ public class QueryParameters {
         for (String pair : pairs) {
             if (pair.isEmpty()) continue;
 
-            String[] kv = pair.split("=", 2); // value에 '=' 들어가도 OK
+            String[] kv = pair.split("=", 2);
             String rawKey = kv[0];
             String rawValue = kv.length == 2 ? kv[1] : "";
 

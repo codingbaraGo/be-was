@@ -4,7 +4,7 @@ public class SessionEntity {
     private final String id;      // 세션 아이디(UUID)
     private final long userId;    // DB 키
     private final String userRole;
-    private final String nickname;
+    private  String nickname;
     private final long createdAt;
     private volatile long lastAccessAt;
 
@@ -26,4 +26,8 @@ public class SessionEntity {
     public String getNickname() { return nickname; }
 
     public long getLastAccessAt() { return lastAccessAt; }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

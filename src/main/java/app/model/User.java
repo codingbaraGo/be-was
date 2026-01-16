@@ -29,8 +29,16 @@ public class User {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getNickname() {
         return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getEmail() {
@@ -39,10 +47,5 @@ public class User {
 
     public String getUserRole() {
         return userRole;
-    }
-
-    @Override
-    public String toString() {
-        return "User [userId=" + id + ", password=" + password + ", name=" + nickname + ", email=" + email + "]";
     }
 }

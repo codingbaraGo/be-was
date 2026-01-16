@@ -28,6 +28,7 @@ public enum ErrorCode {
     INVALID_INPUT(HttpStatus.BAD_REQUEST, "400_INVALID_INPUT", "입력 값이 올바르지 않습니다."),
     MISSING_PARAMETER(HttpStatus.BAD_REQUEST, "400_MISSING_PARAM", "필수 파라미터가 누락되었습니다."),
     VALIDATION_FAILED(HttpStatus.BAD_REQUEST, "400_VALIDATION_FAIL", "유효성 검증에 실패했습니다."),
+    PASSWORD_DOUBLE_CHECK_FAIL(HttpStatus.BAD_REQUEST, "400_PASSWORD_DOUBLE_CHECK_FAIL", "비밀번호가 서로 다릅니다."),
 
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "401_UNAUTHORIZED", "로그인이 필요합니다."),
 

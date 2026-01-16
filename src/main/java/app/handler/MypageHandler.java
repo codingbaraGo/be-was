@@ -24,9 +24,9 @@ public class MypageHandler extends SingleArgHandler<AuthenticationInfo> {
         Long userId = info.getUserId().orElseThrow(
                 () -> new ErrorException("MypageHandler::User id must exists"));
 
-        File requestedFile = new File(PROFILE_IMG_DIR + "/" + userId.toString() + ".jpeg");
+        File requestedFile = new File(PROFILE_IMG_DIR + "/" + userId);
         if (requestedFile.exists() && requestedFile.isFile()){
-            response.addModel("profileImageUrl", "/mypage/img/" + userId + ".jpeg");
+            response.addModel("profileImageUrl", "/mypage/img/" + userId);
         } else{
             response.addModel("profileImageUrl", BASIC_PROFILE_IMG);
         }

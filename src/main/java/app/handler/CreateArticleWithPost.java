@@ -22,6 +22,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+import static config.DatabaseConfig.ARTICLE_IMG_DIR;
+import static exception.ErrorCode.UNSUPPORTED_IMAGE_TYPE;
+
 public class CreateArticleWithPost extends DoubleArgHandler<MultipartForm, AuthenticationInfo> {
     private static final Logger log = LoggerFactory.getLogger(CreateArticleWithPost.class);
     private final ArticleRepository articleRepository;
@@ -46,11 +49,14 @@ public class CreateArticleWithPost extends DoubleArgHandler<MultipartForm, Authe
                         multiform.getField("content")
                                 .orElse("")));
 
-        Path filePath = Paths.get(DatabaseConfig.ARTICLE_IMG_DIR)
-                .resolve(saved.getId().toString() + extension);
+        Path filePath = Paths.get(ARTICLE_IMG_DIR)
+                .resolve(saved.getId().toString());
 
         try {
-            Files.write(filePath, multipartFile.bytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(filePath,
+                    multipartFile.bytes(),
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e){
             log.error(e.fillInStackTrace().toString());
             throw new ErrorException("error");
@@ -67,7 +73,7 @@ public class CreateArticleWithPost extends DoubleArgHandler<MultipartForm, Authe
             case "image/png" -> ".png";
             case "image/jpg" -> ".jpg";
             case "image/jpeg" -> ".jpeg";
-            default -> throw new ServiceException(ErrorCode.UNSUPPORTED_IMAGE_TYPE);
+            default -> throw new ServiceException(UNSUPPORTED_IMAGE_TYPE);
         };
     }
 }

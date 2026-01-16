@@ -25,6 +25,7 @@ import web.dispatch.argument.resolver.*;
 import web.filter.*;
 import web.handler.DefaultViewHandler;
 import web.handler.StaticContentHandler;
+import web.handler.UserProfileImageHandler;
 import web.handler.WebHandler;
 import web.renderer.DynamicViewRenderer;
 import web.renderer.HttpResponseRenderer;
@@ -95,6 +96,12 @@ public class AppConfig extends SingletonContainer {
                         loginWithPost(),
                         logoutWithPost(),
                         createArticleWithPost(),
+                        createCommentWithPost(),
+                        getCommentCreateForm(),
+                        articleLikeIncreaseHandler(),
+                        mypageHandler(),
+                        mypageUpdateHandler(),
+                        userProfileImageHandler(),
                         homeHandler(),
                         defaultViewHandler())
         );
@@ -142,6 +149,46 @@ public class AppConfig extends SingletonContainer {
                 CreateArticleWithPost.class.getSimpleName(),
                 () -> new CreateArticleWithPost(
                         articleRepository()));
+    }
+
+    public CreateCommentWithPost createCommentWithPost(){
+        return getOrCreate(
+                CreateCommentWithPost.class.getSimpleName(),
+                () -> new CreateCommentWithPost(
+                        commentRepository()));
+    }
+
+    public GetCommentCreateForm getCommentCreateForm(){
+        return getOrCreate(
+                GetCommentCreateForm.class.getSimpleName(),
+                GetCommentCreateForm::new);
+    }
+
+    public ArticleLikeIncreaseHandler articleLikeIncreaseHandler(){
+        return getOrCreate(
+                ArticleLikeIncreaseHandler.class.getSimpleName(),
+                () -> new ArticleLikeIncreaseHandler(
+                        articleRepository()));
+    }
+
+    public MypageHandler mypageHandler(){
+        return getOrCreate(
+                MypageHandler.class.getSimpleName(),
+                MypageHandler::new);
+    }
+
+    public MypageUpdateHandler mypageUpdateHandler(){
+        return getOrCreate(
+                MypageUpdateHandler.class.getSimpleName(),
+                () -> new MypageUpdateHandler(
+                        userRepository(),
+                        sessionStorage()));
+    }
+
+    public UserProfileImageHandler userProfileImageHandler(){
+        return getOrCreate(
+                UserProfileImageHandler.class.getSimpleName(),
+                UserProfileImageHandler::new);
     }
 
     public HomeHandler homeHandler(){

@@ -15,10 +15,10 @@
         {{#if1 article}}
         <div class="post">
             <div class="post__account">
-                <img class="post__account__img" src=""/>
+                <img class="post__account__img" src="../static/mypage/img/{{article.writerId}}"/>
                 <p class="post__account__nickname">{{writerNickname}}</p>
             </div>
-            <img class="post__img" src="../static/article/img/{{article.id}}.jpeg"/>
+            <img class="post__img" src="../static/article/img/{{article.id}}"/>
             <div class="post__menu">
                 <ul class="post__menu__personal">
                     <li>
@@ -54,7 +54,7 @@
             {{#each1 commentList}}
             <li class="comment__item">
                 <div class="comment__item__user">
-                    <img class="comment__item__user__img" src="../static/article/img/{{this.writerId}}.jpeg"/>
+                    <img class="comment__item__user__img" src="../static/article/img/{{this.writerId}}"/>
                     <p class="comment__item__user__nickname">{{this.nickname}}</p>
                 </div>
                 <p class="comment__item__article">

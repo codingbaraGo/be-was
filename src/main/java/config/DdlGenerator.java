@@ -31,11 +31,15 @@ public class DdlGenerator {
                 String tableName = toTableName(entityClass);
                 String ddl = buildDdlForEntity(entityClass, tableName);
                 log.info("DDL for {}:\n{}", tableName, ddl);
-                stmt.execute(ddl);
+                try {
+                    stmt.execute(ddl);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("DDL 생성/실행 중 오류", e);
+            e.printStackTrace();
         }
     }
 
